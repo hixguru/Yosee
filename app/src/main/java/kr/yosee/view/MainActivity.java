@@ -1,6 +1,5 @@
 package kr.yosee.view;
 
-import adapter.TabPagerAdapter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -8,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.yosee.R;
+import kr.yosee.adapter.TabPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
