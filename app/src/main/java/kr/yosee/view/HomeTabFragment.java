@@ -1,5 +1,6 @@
 package kr.yosee.view;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +28,7 @@ public class HomeTabFragment extends Fragment implements MainPresenter.View {
     @Inject RecipeAdapterView recipeAdapterView;
     private RecyclerAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private ProgressDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +56,23 @@ public class HomeTabFragment extends Fragment implements MainPresenter.View {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        adapter.setOnRecyclerItemClickListener((adapter1, position) -> {
+            presenter.getMoreRecipeInfo(adapter1.getItem(position).getObjectId());
+        });
 
         presenter.initData();
 
         return view;
+    }
+
+    @Override
+    public void showLoadingBar() {
+        dialog = ProgressDialog.show(getContext(), "레시피 로딩중", "잠시만 기다려주세요.", true, true);
+    }
+
+    @Override
+    public void hideLoadingBar() {
+        dialog.dismiss();
     }
 
     @Override

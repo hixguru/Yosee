@@ -1,6 +1,7 @@
 package kr.yosee.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import kr.yosee.R;
 import kr.yosee.adapter.model.RecipeDataModel;
 import kr.yosee.adapter.view.RecipeAdapterView;
 import kr.yosee.model.Recipe;
+import kr.yosee.view.listeners.OnRecyclerItemClickListener;
 
 /**
  * Created by hwanik on 2017. 1. 26..
@@ -27,14 +29,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private final Context context;
     private List<Recipe> items;
 
+    public OnRecyclerItemClickListener onRecyclerItemClickListener;
+
     public RecyclerAdapter(Context context) {
         this.context = context;
         this.items = new ArrayList<>();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.layout_recipe_container) CardView itemView;
         @BindView(R.id.iv_recipe_image) ImageView recipeImage;
         @BindView(R.id.tv_recipe_title) TextView recipeTitle;
+        @BindView(R.id.tv_recipe_description) TextView recipeDescription;
 
         ViewHolder(View view) {
             super(view);
@@ -44,7 +50,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.fragment_home_recipe_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -52,10 +59,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Recipe recipe = items.get(position);
 
-        Glide.with(context)
-            .load(recipe.getImgUrl())
-            .into(holder.recipeImage);
+        Glide.with(context).load(recipe.getImgUrl()).into(holder.recipeImage);
         holder.recipeTitle.setText(recipe.getTitle());
+        holder.recipeDescription.setText(recipe.getDescription());
+
+        holder.itemView.setOnClickListener(view -> {
+            if (onRecyclerItemClickListener != null) {
+                onRecyclerItemClickListener.onItemClick(RecyclerAdapter.this, position);
+            }
+        });
+    }
+
+    public Recipe getItem(int position) {
+        return items.get(position);
     }
 
     @Override
@@ -71,5 +87,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void refresh() {
         notifyDataSetChanged();
+    }
+
+    public void setOnRecyclerItemClickListener(
+        OnRecyclerItemClickListener onRecyclerItemClickListener) {
+        this.onRecyclerItemClickListener = onRecyclerItemClickListener;
     }
 }

@@ -7,13 +7,13 @@ package kr.yosee.model;
 public class Recipe {
     private String imgUrl;
     private String title;
-    private String subTitle;
+    private String description;
     private String objectId;
 
-    public Recipe(String imgUrl, String title, String subTitle, String objectId) {
+    public Recipe(String imgUrl, String title, String description, String objectId) {
         this.imgUrl = imgUrl;
         this.title = title;
-        this.subTitle = subTitle;
+        this.description = description;
         this.objectId = objectId;
     }
 
@@ -33,12 +33,12 @@ public class Recipe {
         this.title = title;
     }
 
-    public String getSubTitle() {
-        return subTitle;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getObjectId() {

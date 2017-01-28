@@ -8,7 +8,14 @@ public interface MainPresenter {
 
     void initData();
 
+    void getMoreRecipeInfo(String objectId);
+
     interface View {
+
+        void showLoadingBar();
+
+        void hideLoadingBar();
+
         void refresh();
     }
 }

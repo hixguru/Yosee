@@ -7,6 +7,8 @@ import kr.yosee.adapter.model.RecipeDataModel;
 import kr.yosee.adapter.view.RecipeAdapterView;
 import kr.yosee.presenter.MainPresenter;
 import kr.yosee.presenter.MainPresenterImpl;
+import kr.yosee.util.DBHelper;
+import kr.yosee.util.QueryGenerator;
 
 /**
  * Created by hwanik on 2017. 1. 27..
@@ -41,5 +43,15 @@ public class MainModule {
     @Provides
     RecipeAdapterView provideRecipeAdaterView() {
         return adapter;
+    }
+
+    @Provides
+    DBHelper provideDBHelper() {
+        return new DBHelper();
+    }
+
+    @Provides
+    QueryGenerator provideQueryNegerator() {
+        return new QueryGenerator();
     }
 }
