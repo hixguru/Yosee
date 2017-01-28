@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
         R.drawable.cook_icon, R.drawable.menu_icon, R.drawable.search_icon, R.drawable.man_icon
     };
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

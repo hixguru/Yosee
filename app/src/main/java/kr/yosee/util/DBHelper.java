@@ -5,7 +5,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 import java.util.List;
 
 /**
@@ -14,28 +13,31 @@ import java.util.List;
 
 public class DBHelper {
     private ParseQuery<ParseObject> query;
-    private PublishSubject<List<ParseObject>> subject;
+
+    public DBHelper() {
+    }
 
     public void setQuery(ParseQuery<ParseObject> query) {
         this.query = query;
-        subject = PublishSubject.create();
     }
 
     public void whereEqualTo(String key, String value) {
         query.whereEqualTo(key, value);
     }
 
-    public Subject<List<ParseObject>> getResult() {
+    public PublishSubject<List<ParseObject>> getResult() {
+        PublishSubject<List<ParseObject>> result = PublishSubject.create();
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if (e != null) {
-                    subject.onError(e);
+                    result.onError(e);
                     return;
                 }
-                subject.onNext(list);
+                result.onNext(list);
             }
         });
-        return subject;
+        return result;
     }
 }

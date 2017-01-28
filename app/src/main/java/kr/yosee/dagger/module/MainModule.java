@@ -1,5 +1,6 @@
 package kr.yosee.dagger.module;
 
+import android.app.DownloadManager;
 import dagger.Module;
 import dagger.Provides;
 import kr.yosee.adapter.RecyclerAdapter;

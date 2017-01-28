@@ -22,7 +22,8 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
     private SignInPresenter presenter;
     private ProgressDialog dialog;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
@@ -33,27 +34,33 @@ public class SignInActivity extends AppCompatActivity implements SignInPresenter
         presenter = new SignInPresenterImpl(this);
     }
 
-    @OnClick(R.id.btn_sign_in) public void signIn() {
+    @OnClick(R.id.btn_sign_in)
+    public void signIn() {
         presenter.login(userId.getText().toString(), userPassword.getText().toString());
     }
 
-    @Override public void emptyUserInfo() {
+    @Override
+    public void emptyUserInfo() {
         Toast.makeText(this, "아이디 또는 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void invalidUserInfo() {
+    @Override
+    public void invalidUserInfo() {
         Toast.makeText(getApplicationContext(), "아이디와 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void showProgress() {
+    @Override
+    public void showProgress() {
         dialog = ProgressDialog.show(this, "계정 확인중", "잠시만 기다려주세요.", true, true);
     }
 
-    @Override public void stopProgress() {
+    @Override
+    public void stopProgress() {
         dialog.dismiss();
     }
 
-    @Override public void startMainActivity() {
+    @Override
+    public void startMainActivity() {
         finish();
         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
         startActivity(intent);

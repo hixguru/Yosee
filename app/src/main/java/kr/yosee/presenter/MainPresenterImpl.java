@@ -8,6 +8,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import io.reactivex.Completable;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import java.util.List;
 import javax.inject.Inject;
@@ -52,35 +53,31 @@ public class MainPresenterImpl implements MainPresenter {
         queryGenerator.orderByDescending("updateAt");
 
         dbHelper.setQuery(queryGenerator.getQuery());
-        dbHelper.getResult()
-            .subscribe(recipes -> {
-                for (int i = 0; i < recipes.size(); i++) {
-                    ParseObject recipe = recipes.get(i);
-                    String image = ((ParseFile) recipes.get(i).get(MAIN_IMAGE)).getUrl();
+        dbHelper.getResult().subscribe(recipes -> {
+            for (int i = 0; i < recipes.size(); i++) {
+                ParseObject recipe = recipes.get(i);
+                String image = ((ParseFile) recipes.get(i).get(MAIN_IMAGE)).getUrl();
 
-                    recipeDataModel.add(new Recipe(image, recipe.getString(MAIN_TITLE),
-                        recipe.getString(SUB_TITLE), recipe.getObjectId()));
-                }
-                view.refresh();
-                view.hideLoadingBar();
-            }, e -> Log.e(TAG, "initData: e " + e.getMessage()));
+                recipeDataModel.add(
+                    new Recipe(image, recipe.getString(MAIN_TITLE), recipe.getString(SUB_TITLE),
+                        recipe.getObjectId()));
+            }
+            view.refresh();
+            view.hideLoadingBar();
+        }, e -> Log.e(TAG, "initData: e " + e.getMessage()));
     }
 
     @Override
     public void getMoreRecipeInfo(String objectId) {
-        Completable.complete()
-            .subscribeOn(Schedulers.io())
-            .subscribe(() -> {
-                getData(objectId);
-            });
-    }
-
-    private void getData(String objectId) {
+        view.showLoadingBar();
         dbHelper.whereEqualTo("objectId", objectId);
         dbHelper.getResult()
+            .subscribeOn(Schedulers.io())
             .subscribe(detailRecipe -> {
                 // TODO recipe detail data 처리 : D
                 Log.e(TAG, "getData: size : " + detailRecipe.size());
-            }, e -> Log.e(TAG, "getData: " + e.getMessage()));
+                view.hideLoadingBar();
+            }, e -> Log.e(TAG, "getData: " + e.getMessage()),
+            () -> Log.e(TAG, "getMoreRecipeInfo: onComplete"));
     }
 }

@@ -27,13 +27,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     implements RecipeDataModel, RecipeAdapterView {
 
     private final Context context;
-    private List<Recipe> items;
+    private List<Recipe> recipes;
 
     public OnRecyclerItemClickListener onRecyclerItemClickListener;
 
     public RecyclerAdapter(Context context) {
         this.context = context;
-        this.items = new ArrayList<>();
+        this.recipes = new ArrayList<>();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +57,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Recipe recipe = items.get(position);
+        Recipe recipe = recipes.get(position);
 
         Glide.with(context).load(recipe.getImgUrl()).into(holder.recipeImage);
         holder.recipeTitle.setText(recipe.getTitle());
@@ -71,17 +71,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public Recipe getItem(int position) {
-        return items.get(position);
+        return recipes.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return recipes.size();
     }
 
     @Override
     public void add(Recipe recipe) {
-        items.add(recipe);
+        recipes.add(recipe);
     }
 
     @Override
