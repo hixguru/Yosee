@@ -1,4 +1,4 @@
-package presenter;
+package kr.yosee.presenter;
 
 import android.text.TextUtils;
 import com.parse.LogInCallback;

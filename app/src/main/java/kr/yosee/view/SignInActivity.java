@@ -11,8 +11,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.parse.Parse;
 import kr.yosee.R;
-import presenter.SignInPresenter;
-import presenter.SignInPresenterImpl;
+import kr.yosee.presenter.SignInPresenter;
+import kr.yosee.presenter.SignInPresenterImpl;
 
 public class SignInActivity extends AppCompatActivity implements SignInPresenter.view {
 

@@ -1,6 +1,5 @@
 package kr.yosee.view;
 
-import adapter.TabPagerAdapter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -8,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.yosee.R;
+import kr.yosee.adapter.TabPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
         R.drawable.cook_icon, R.drawable.menu_icon, R.drawable.search_icon, R.drawable.man_icon
     };
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), viewPager);
 
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(adapter);
     }

@@ -1,4 +1,4 @@
-package presenter;
+package kr.yosee.presenter;
 
 /**
  * Created by tta on 2017. 1. 26..
