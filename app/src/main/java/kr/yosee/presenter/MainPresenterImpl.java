@@ -1,23 +1,20 @@
 package kr.yosee.presenter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import io.reactivex.Completable;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
-import java.util.List;
+import java.util.ArrayList;
 import javax.inject.Inject;
 import kr.yosee.adapter.model.RecipeDataModel;
 import kr.yosee.adapter.view.RecipeAdapterView;
-
+import kr.yosee.model.DetailRecipe;
 import kr.yosee.model.Recipe;
 import kr.yosee.util.DBHelper;
 import kr.yosee.util.QueryGenerator;
+import kr.yosee.view.SignInActivity;
 
 /**
  * Created by hwanik on 2017. 1. 26..
@@ -35,10 +32,13 @@ public class MainPresenterImpl implements MainPresenter {
     private RecipeAdapterView recipeAdapterView;
     private DBHelper dbHelper;
     private QueryGenerator queryGenerator;
+    @Inject
+    Context context;
 
     @Inject
     MainPresenterImpl(MainPresenter.View view, RecipeDataModel recipeDataModel,
-        RecipeAdapterView recipeAdapterView, DBHelper dbHelper, QueryGenerator queryGenerator) {
+                      RecipeAdapterView recipeAdapterView, DBHelper dbHelper,
+                      QueryGenerator queryGenerator) {
         this.view = view;
         this.recipeDataModel = recipeDataModel;
         this.recipeAdapterView = recipeAdapterView;
@@ -60,7 +60,7 @@ public class MainPresenterImpl implements MainPresenter {
 
                 recipeDataModel.add(
                     new Recipe(image, recipe.getString(MAIN_TITLE), recipe.getString(SUB_TITLE),
-                        recipe.getObjectId()));
+                               recipe.getObjectId()));
             }
             view.refresh();
             view.hideLoadingBar();
@@ -74,10 +74,22 @@ public class MainPresenterImpl implements MainPresenter {
         dbHelper.getResult()
             .subscribeOn(Schedulers.io())
             .subscribe(detailRecipe -> {
-                // TODO recipe detail data 처리 : D
-                Log.e(TAG, "getData: size : " + detailRecipe.size());
+                ArrayList<DetailRecipe> matList = new ArrayList<>();
+
+                int k = 0;
+                while (detailRecipe.get(0).getString("M_NAME") + String.valueOf(k) != null) {
+                    matList.add(
+                        new DetailRecipe(
+                            detailRecipe.get(0).getString("M_NAME" + String.valueOf(k)),
+                            detailRecipe.get(0).getString("M_NULL" + String.valueOf(k)),
+                            detailRecipe.get(0).getString("M_UNIT_" + String.valueOf(k))));
+                    k++;
+                }
+            }, e -> {
+                Log.e(TAG, "getData: " + e.getMessage());
+            }, () -> {
                 view.hideLoadingBar();
-            }, e -> Log.e(TAG, "getData: " + e.getMessage()),
-            () -> Log.e(TAG, "getMoreRecipeInfo: onComplete"));
+                Log.e(TAG, "getMoreRecipeInfo: onComplete");
+            });
     }
 }

@@ -1,7 +1,6 @@
 package kr.yosee.dagger.view;
 
 import dagger.Component;
-import javax.inject.Singleton;
 import kr.yosee.dagger.module.MainModule;
 import kr.yosee.view.HomeTabFragment;
 
