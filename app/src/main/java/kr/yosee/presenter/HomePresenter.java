@@ -4,7 +4,7 @@ package kr.yosee.presenter;
  * Created by hwanik on 2017. 1. 26..
  */
 
-public interface MainPresenter {
+public interface HomePresenter {
 
     void initData();
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_upload"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="kr.yosee.view.UploadActivity"
+    >
+
+    <include
+        layout="@layout/tool_bar"
+        android:id="@+id/toolbar"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_main_img"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@drawable/bg_rounded_corner"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_main_img"
+            />
+        <EditText
+            android:id="@+id/et_main_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white"
+            android:hint="제목을 입력하세요(필수)"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="16dp"
+            android:textSize="15sp"
+            />
+        <EditText
+            android:id="@+id/et_main_description"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="15dp"
+            android:background="@android:color/white"
+            android:gravity="top"
+            android:hint="추가설명을 입력하세요(선택)"
+            android:padding="15dp"
+            android:textSize="10sp"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next_step"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff3d633"
+        android:text="Next Step"
+        android:textColor="@android:color/white"
+        />
+</LinearLayout>

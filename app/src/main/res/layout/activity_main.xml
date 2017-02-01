@@ -9,19 +9,9 @@
     tools:context="kr.yosee.view.MainActivity"
     >
 
-    <android.support.v7.widget.Toolbar
+    <include
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/yoseeColor"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tool_bar_title"
-            android:textColor="@android:color/white"
-            />
-    </android.support.v7.widget.Toolbar>
+        layout="@layout/tool_bar" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
