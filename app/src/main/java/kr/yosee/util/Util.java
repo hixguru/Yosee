@@ -7,11 +7,11 @@ import android.text.TextUtils;
  */
 
 public class Util {
-    public static boolean isValidPassword(String userPassword) {
+    public static boolean isPasswordValid(String userPassword) {
         return !TextUtils.isEmpty(userPassword) && userPassword.length() >= 6;
     }
 
-    public static boolean isValidEmail(String Email) {
+    public static boolean isEmailValid(String Email) {
         return !TextUtils.isEmpty(Email) && android.util.Patterns.EMAIL_ADDRESS.matcher(Email).matches();
     }
 }

@@ -1,57 +1,35 @@
 package kr.yosee.view;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.IOException;
 import kr.yosee.R;
+import kr.yosee.presenter.UploadPresenter;
+import kr.yosee.presenter.UploadPresenterImpl;
 
-public class UploadActivity extends AppCompatActivity {
+public class UploadActivity extends AppCompatActivity implements UploadPresenter.View {
+    // CONSTANTS
+    public static final int REQUEST_IMAGE_FROM_GALLERY = 2;
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private static final int REQUEST_CAMERA = 1;
-    private static final int SELECT_FILE = 2;
-    @BindView(R.id.iv_main_img) ImageView mainImg;
+    // BIND VIEW
+    @BindView(R.id.iv_main_img) ImageView ivMainImg;
+    @BindView(R.id.et_main_title) EditText etMainTitle;
+    @BindView(R.id.et_main_description) EditText etMainDescription;
 
-    @OnClick(R.id.iv_main_img)
-    public void getPhoto() {
-        final CharSequence[] items = { "사진 촬영하기", "갤러리에서 가져오기", "Cancel" };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
-        builder.setItems(items, (dialog, item) -> {
-            if (items[item].equals("Take Photo")) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File f = new File(android.os.Environment
-                                      .getExternalStorageDirectory(), "temp.jpg");
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                startActivityForResult(intent, REQUEST_CAMERA);
-            } else if (items[item].equals("Choose from Library")) {
-                Intent intent = new Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
-                startActivityForResult(
-                    Intent.createChooser(intent, "Select File"),
-                    SELECT_FILE);
-            } else if (items[item].equals("Cancel")) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-    }
+    private UploadPresenter presenter;
+    private Bitmap mainImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,68 +37,74 @@ public class UploadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_upload);
 
         ButterKnife.bind(this);
+
+        presenter = new UploadPresenterImpl(this);
+    }
+
+    @OnClick(R.id.iv_main_img)
+    public void getPhoto() {
+        final CharSequence[] items = { "사진 촬영하기", "갤러리에서 가져오기", "Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
+        builder.setItems(items, (dialog, item) -> {
+            switch (item) {
+                case 0:
+                    presenter.takePicture();
+                    break;
+                case 1:
+                    presenter.getPictureFromGallery();
+                    break;
+                case 2:
+                    dialog.dismiss();
+                    break;
+            }
+        });
+        builder.show();
+    }
+
+    @OnClick(R.id.btn_next_step)
+    public void nagivateToDetailRecipe() {
+        presenter.navigateToDetailRecipe(mainImage,
+                                         etMainTitle.getText().toString(),
+                                         etMainDescription.getText().toString());
+    }
+
+    public void setImage(Bitmap imageBitmap) {
+        ivMainImg.setImageBitmap(imageBitmap);
+    }
+
+    @Override
+    public void showEmptyImage() {
+        Toast.makeText(this, "표지 이미지를 선택해주세요.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showEmptyTitle() {
+        Toast.makeText(this, "제목을 입력해주세요.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void navigateToDetailPage(Intent intent) {
+        startActivity(intent);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CAMERA) {
-                File f = new File(Environment.getExternalStorageDirectory()
-                                      .toString());
-                for (File temp : f.listFiles()) {
-                    if (temp.getName().equals("temp.jpg")) {
-                        f = temp;
-                        break;
-                    }
-                }
-                try {
-                    Bitmap bm;
-                    BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+        mainImage = null;
+        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
+            Bundle extras = data.getExtras();
+            mainImage = (Bitmap) extras.get("data");
+            setImage(mainImage);
+        }
 
-                    bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                                                  btmapOptions);
-
-                    // bm = Bitmap.createScaledBitmap(bm, 70, 70, true);
-                    mainImg.setImageBitmap(bm);
-
-                    String path = android.os.Environment
-                        .getExternalStorageDirectory()
-                        + File.separator
-                        + "Phoenix" + File.separator + "default";
-                    f.delete();
-                    OutputStream fOut = null;
-                    File file = new File(path, String.valueOf(System
-                                                                  .currentTimeMillis()) + ".jpg");
-                    try {
-                        fOut = new FileOutputStream(file);
-                        bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
-                        fOut.flush();
-                        fOut.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (requestCode == SELECT_FILE) {
-                Uri selectedImageUri = data.getData();
-
-                String tempPath = getPath(selectedImageUri, UploadActivity.this);
-                Bitmap bm;
-                BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-                bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
-                mainImg.setImageBitmap(bm);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_IMAGE_FROM_GALLERY) {
+            Uri uri = data.getData();
+            try {
+                mainImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                setImage(mainImage);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-    }
-
-    public String getPath(Uri uri, Activity activity) {
-        String[] projection = { MediaStore.MediaColumns.DATA };
-        Cursor cursor = activity
-            .managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
     }
 }

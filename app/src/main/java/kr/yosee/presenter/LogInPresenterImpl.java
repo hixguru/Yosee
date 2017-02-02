@@ -22,12 +22,12 @@ public class LogInPresenterImpl implements LogInPresenter {
     public void login(String userEmail, String userPassword) {
         auth = FirebaseAuth.getInstance();
 
-        if (!Util.isValidEmail(userEmail)) {
+        if (!Util.isEmailValid(userEmail)) {
             view.invalidEmail();
             return;
         }
 
-        if (!Util.isValidPassword(userPassword)) {
+        if (!Util.isPasswordValid(userPassword)) {
             view.invalidPassword();
             return;
         }

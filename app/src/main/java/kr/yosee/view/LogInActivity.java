@@ -40,7 +40,7 @@ public class LogInActivity extends AppCompatActivity implements LogInPresenter.V
             if (user != null) {
                 Log.e(TAG, "onCreate: signed_in" + user.getUid());
             } else {
-                Log.e(TAG, "onCreate: sign out");
+                Log.e(TAG, "onCreate: signed_out");
             }
         };
     }

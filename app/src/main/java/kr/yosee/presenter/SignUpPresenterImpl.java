@@ -18,12 +18,12 @@ public class SignUpPresenterImpl implements SignUpPresenter {
 
     @Override
     public void signUp(String userEmail, String userPassword) {
-        if (!Util.isValidEmail(userEmail)) {
+        if (!Util.isEmailValid(userEmail)) {
             view.invalidEmail();
             return;
         }
 
-        if (!Util.isValidPassword(userPassword)) {
+        if (!Util.isPasswordValid(userPassword)) {
             view.invalidPassword();
             return;
         }
