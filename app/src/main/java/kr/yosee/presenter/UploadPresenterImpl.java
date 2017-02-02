@@ -6,7 +6,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import java.io.ByteArrayOutputStream;
 import kr.yosee.view.UploadActivity;
-import kr.yosee.view.UploadDetail;
+import kr.yosee.view.UploadDetailActivity;
 
 import static kr.yosee.view.UploadActivity.REQUEST_IMAGE_CAPTURE;
 import static kr.yosee.view.UploadActivity.REQUEST_IMAGE_FROM_GALLERY;
@@ -58,7 +58,7 @@ public class UploadPresenterImpl implements UploadPresenter {
         mainImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bitmapToByte = stream.toByteArray();
 
-        Intent intent = new Intent(activity, UploadDetail.class);
+        Intent intent = new Intent(activity, UploadDetailActivity.class);
         intent.putExtra("main_image", bitmapToByte);
         intent.putExtra("main_title", mainTitle);
         intent.putExtra("main_description", mainDescription);

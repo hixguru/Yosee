@@ -25,7 +25,7 @@
         <activity android:name=".view.LogInActivity" />
         <activity android:name=".view.SignUpActivity" />
         <activity android:name=".view.UploadActivity" />
-        <activity android:name=".view.UploadDetail"></activity>
+        <activity android:name=".view.UploadDetailActivity"></activity>
     </application>
 
 </manifest>

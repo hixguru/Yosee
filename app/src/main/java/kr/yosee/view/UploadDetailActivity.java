@@ -12,7 +12,7 @@ import kr.yosee.R;
 import android.graphics.Bitmap;
 import org.w3c.dom.Text;
 
-public class UploadDetail extends AppCompatActivity {
+public class UploadDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.t1) ImageView imageView;
     @BindView(R.id.t2) TextView textView;
