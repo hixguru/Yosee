@@ -10,8 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.parse.Parse;
 import kr.yosee.R;
-import kr.yosee.adapter.TabPagerAdapter;
+import kr.yosee.adapter.MainPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
         setSupportActionBar(toolbar);
         initView();
@@ -39,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
             tabLayout.addTab(tabLayout.newTab().setIcon(TAB_ICONS[i]));
         }
 
-        TabPagerAdapter adapter =
-            new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), viewPager);
+        MainPagerAdapter adapter =
+            new MainPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), viewPager);
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(4);

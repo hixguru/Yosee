@@ -12,48 +12,49 @@ import kr.yosee.view.TabFragment;
  * Created by hwanik on 2017. 1. 26..
  */
 
-public class TabPagerAdapter extends FragmentStatePagerAdapter
+public class MainPagerAdapter extends FragmentStatePagerAdapter
     implements TabLayout.OnTabSelectedListener {
 
     private int tabSize;
     private ViewPager viewPager;
 
-    public TabPagerAdapter(FragmentManager fm, int tabSize, ViewPager viewPager) {
+    public MainPagerAdapter(FragmentManager fm, int tabSize, ViewPager viewPager) {
         super(fm);
         this.tabSize = tabSize;
         this.viewPager = viewPager;
     }
 
-    @Override public Fragment getItem(int position) {
+    @Override
+    public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                HomeTabFragment home = new HomeTabFragment();
-                return home;
+                return new HomeTabFragment();
             case 1:
-                TabFragment category = new TabFragment();
-                return category;
+                return new TabFragment();
             case 2:
-                TabFragment search = new TabFragment();
-                return search;
+                return new TabFragment();
             case 3:
-                TabFragment myPage = new TabFragment();
-                return myPage;
+                return new TabFragment();
             default:
                 return null;
         }
     }
 
-    @Override public int getCount() {
+    @Override
+    public int getCount() {
         return tabSize;
     }
 
-    @Override public void onTabSelected(TabLayout.Tab tab) {
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
         viewPager.setCurrentItem(tab.getPosition());
     }
 
-    @Override public void onTabUnselected(TabLayout.Tab tab) {
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
     }
 
-    @Override public void onTabReselected(TabLayout.Tab tab) {
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
     }
 }

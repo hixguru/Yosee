@@ -1,18 +1,17 @@
 package kr.yosee.view;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.yosee.R;
-import android.graphics.Bitmap;
-import org.w3c.dom.Text;
 
-public class UploadDetailActivity extends AppCompatActivity {
+public class UploadDetailCoverActivity extends AppCompatActivity {
 
     @BindView(R.id.t1) ImageView imageView;
     @BindView(R.id.t2) TextView textView;
