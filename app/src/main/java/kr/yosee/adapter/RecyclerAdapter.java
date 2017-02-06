@@ -1,87 +1,68 @@
 package kr.yosee.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 import kr.yosee.R;
 import kr.yosee.adapter.model.RecipeDataModel;
+import kr.yosee.adapter.view.BaseViewHolder;
 import kr.yosee.adapter.view.RecipeAdapterView;
-import kr.yosee.model.Recipe;
+import kr.yosee.adapter.view.holder.MainRecipeViewHolder;
+import kr.yosee.adapter.view.holder.MaterialViewHolder;
 import kr.yosee.view.listeners.OnRecyclerItemClickListener;
 
 /**
  * Created by hwanik on 2017. 1. 26..
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
-    implements RecipeDataModel, RecipeAdapterView {
+public class RecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>>
+    implements RecipeDataModel<T>, RecipeAdapterView {
+
+    public static final int MAIN_VIEW = 0;
+    public static final int MATERIAL_VIEW = 1;
 
     private final Context context;
-    private List<Recipe> recipes;
+    private final int viewHolderType;
+    private List<T> items;
 
     public OnRecyclerItemClickListener onRecyclerItemClickListener;
 
-    public RecyclerAdapter(Context context) {
+    public RecyclerAdapter(Context context, int viewHolderType) {
         this.context = context;
-        this.recipes = new ArrayList<>();
+        this.viewHolderType = viewHolderType;
+        this.items = new ArrayList<>();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.layout_recipe_container) CardView itemView;
-        @BindView(R.id.iv_recipe_image) ImageView recipeImage;
-        @BindView(R.id.tv_recipe_title) TextView recipeTitle;
-        @BindView(R.id.tv_recipe_description) TextView recipeDescription;
-
-        ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+    @SuppressWarnings("unchecked")
+    @Override
+    public BaseViewHolder<T> onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
+        switch (viewHolderType) {
+            case MAIN_VIEW:
+                view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_home_recipe_item, parent, false);
+                return (BaseViewHolder<T>) new MainRecipeViewHolder(this, view);
+            case MATERIAL_VIEW:
+                view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.material_item, parent, false);
+                return (BaseViewHolder<T>) new MaterialViewHolder(this, view);
+            default:
+                return null;
         }
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.fragment_home_recipe_item, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Recipe recipe = recipes.get(position);
-
-        Glide.with(context).load(recipe.getImgUrl()).into(holder.recipeImage);
-        holder.recipeTitle.setText(recipe.getTitle());
-        holder.recipeDescription.setText(recipe.getDescription());
-
-        holder.itemView.setOnClickListener(view -> {
-            if (onRecyclerItemClickListener != null) {
-                onRecyclerItemClickListener.onItemClick(RecyclerAdapter.this, position);
-            }
-        });
-    }
-
-    public Recipe getItem(int position) {
-        return recipes.get(position);
+    public void onBindViewHolder(BaseViewHolder<T> holder, int position) {
+        holder.onBindView(items.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return recipes.size();
-    }
-
-    @Override
-    public void add(Recipe recipe) {
-        recipes.add(recipe);
+        return items.size();
     }
 
     @Override
@@ -89,8 +70,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    public T getItem(int position) {
+        return items.get(position);
+    }
+
     public void setOnRecyclerItemClickListener(
         OnRecyclerItemClickListener onRecyclerItemClickListener) {
         this.onRecyclerItemClickListener = onRecyclerItemClickListener;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    @Override
+    public void add(T item) {
+        items.add(item);
     }
 }
