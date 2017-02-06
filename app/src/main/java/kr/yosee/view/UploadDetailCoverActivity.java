@@ -1,37 +1,39 @@
 package kr.yosee.view;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
-import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import java.util.ArrayList;
 import kr.yosee.R;
+import kr.yosee.adapter.StepPagerAdapter;
+import kr.yosee.presenter.UploadDetailCoverPresenter;
+import kr.yosee.presenter.UploadDetailCoverPresenterImpl;
 
 public class UploadDetailCoverActivity extends AppCompatActivity {
+    @BindView(R.id.step_view_pager) ViewPager viewPager;
 
-    @BindView(R.id.t1) ImageView imageView;
-    @BindView(R.id.t2) TextView textView;
-    @BindView(R.id.t3) TextView textView1;
+    private UploadDetailCoverPresenter presenter;
+    private ArrayList<Fragment> recipeStepList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_detail);
-
+        setContentView(R.layout.activity_upload_detail_cover);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        byte[] byteToBitmap = intent.getByteArrayExtra("main_image");
-        Bitmap image = BitmapFactory.decodeByteArray(byteToBitmap, 0, byteToBitmap.length);
-        String title = intent.getStringExtra("main_title");
-        String description = intent.getStringExtra("main_description");
+        presenter = new UploadDetailCoverPresenterImpl(this, recipeStepList);
 
-        imageView.setImageBitmap(image);
-        textView.setText(title);
-        textView1.setText(description);
+        byte[] byteToBitmap = getIntent().getByteArrayExtra("main_image");
+
+        recipeStepList = new ArrayList<>();
+        recipeStepList.add(new UploadDetailMaterialFragment().newInstance(byteToBitmap));
+        recipeStepList.add(new UploadDetailStepFragment());
+
+        StepPagerAdapter adapter = new StepPagerAdapter(getSupportFragmentManager(), this,
+                                                        recipeStepList);
+        viewPager.setAdapter(adapter);
     }
 }

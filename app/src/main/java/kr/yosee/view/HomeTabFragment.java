@@ -19,6 +19,7 @@ import kr.yosee.adapter.model.RecipeDataModel;
 import kr.yosee.adapter.view.RecipeAdapterView;
 import kr.yosee.dagger.module.HomeModule;
 import kr.yosee.dagger.view.DaggerHomeComponent;
+import kr.yosee.model.Recipe;
 import kr.yosee.presenter.HomePresenter;
 
 public class HomeTabFragment extends Fragment implements HomePresenter.View {
@@ -28,7 +29,7 @@ public class HomeTabFragment extends Fragment implements HomePresenter.View {
     @Inject HomePresenter presenter;
     @Inject RecipeDataModel recipeDataModel;
     @Inject RecipeAdapterView recipeAdapterView;
-    private RecyclerAdapter adapter;
+    private RecyclerAdapter<Recipe> adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ProgressDialog dialog;
 
@@ -37,7 +38,7 @@ public class HomeTabFragment extends Fragment implements HomePresenter.View {
         super.onCreate(savedInstanceState);
 
         layoutManager = new LinearLayoutManager(getContext());
-        adapter = new RecyclerAdapter(getContext());
+        adapter = new RecyclerAdapter<>(getContext(), RecyclerAdapter.MAIN_VIEW);
 
         DaggerHomeComponent.builder()
             .homeModule(new HomeModule(this, adapter))
@@ -58,7 +59,8 @@ public class HomeTabFragment extends Fragment implements HomePresenter.View {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         adapter.setOnRecyclerItemClickListener((adapter1, position) -> {
-            presenter.getMoreRecipeInfo(adapter1.getItem(position).getObjectId());
+            Recipe recipe = (Recipe) adapter1.getItem(position);
+            presenter.getMoreRecipeInfo(recipe.getObjectId());
         });
 
         presenter.initData();

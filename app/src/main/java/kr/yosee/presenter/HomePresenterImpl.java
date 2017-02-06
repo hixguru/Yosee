@@ -57,9 +57,10 @@ public class HomePresenterImpl implements HomePresenter {
                     ParseObject recipe = recipes.get(i);
                     String image = ((ParseFile) recipes.get(i).get(MAIN_IMAGE)).getUrl();
 
-                    recipeDataModel.add(
-                        new Recipe(image, recipe.getString(MAIN_TITLE), recipe.getString(SUB_TITLE),
-                                   recipe.getObjectId()));
+                    // recipeDataModel.add(
+                    //     new Recipe(image, recipe.getString(MAIN_TITLE), recipe.getString(SUB_TITLE),
+                    //                recipe.getObjectId()));
+                    recipeDataModel.add(new Recipe(null, "zz", "zz", "123"));
                 }
                 view.refresh();
                 view.hideLoadingBar();
@@ -67,6 +68,10 @@ public class HomePresenterImpl implements HomePresenter {
                 view.hideLoadingBar();
                 Log.e(TAG, "initData: e " + e.getMessage());
             });
+
+        recipeDataModel.add(new Recipe(null, "zz", "zz", "123"));
+        recipeDataModel.add(new Recipe(null, "zz", "zz", "123"));
+        recipeDataModel.add(new Recipe(null, "zz", "zz", "123"));
     }
 
     @Override
