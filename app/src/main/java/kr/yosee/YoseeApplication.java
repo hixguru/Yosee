@@ -2,6 +2,7 @@ package kr.yosee;
 
 import android.app.Application;
 import android.content.Context;
+import com.google.firebase.FirebaseApp;
 import kr.yosee.dagger.module.AppModule;
 import kr.yosee.dagger.view.AppComponent;
 import kr.yosee.dagger.view.DaggerAppComponent;
@@ -20,6 +21,8 @@ public class YoseeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        FirebaseApp.initializeApp(this);
 
         component = DaggerAppComponent.builder()
             .appModule(new AppModule(this))

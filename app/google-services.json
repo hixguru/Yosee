@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "463000365025",
+    "firebase_url": "https://yosee-cbcad.firebaseio.com",
+    "project_id": "yosee-cbcad",
+    "storage_bucket": "yosee-cbcad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463000365025:android:e3d9e46a30638b47",
+        "android_client_info": {
+          "package_name": "kr.yosee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463000365025-5u21apuinjj5soamlq5fj5mjr9t3p2bb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7MI0lPjsDbb1IqflM8Aj-lg2PCg0ysAo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

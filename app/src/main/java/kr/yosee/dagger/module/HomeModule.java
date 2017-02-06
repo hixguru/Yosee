@@ -6,8 +6,8 @@ import dagger.Provides;
 import kr.yosee.adapter.RecyclerAdapter;
 import kr.yosee.adapter.model.RecipeDataModel;
 import kr.yosee.adapter.view.RecipeAdapterView;
-import kr.yosee.presenter.MainPresenter;
-import kr.yosee.presenter.MainPresenterImpl;
+import kr.yosee.presenter.HomePresenter;
+import kr.yosee.presenter.HomePresenterImpl;
 import kr.yosee.util.DBHelper;
 import kr.yosee.util.QueryGenerator;
 import kr.yosee.view.HomeTabFragment;
@@ -17,25 +17,25 @@ import kr.yosee.view.HomeTabFragment;
  */
 
 @Module
-public class MainModule {
+public class HomeModule {
 
-    private MainPresenter.View view;
+    private HomePresenter.View view;
     private RecyclerAdapter adapter;
     private Context context;
 
-    public MainModule(HomeTabFragment homeTabFragment, RecyclerAdapter adapter) {
-        this.view = homeTabFragment; // Upcasting HomeTabFragment > MainPresenter.View
+    public HomeModule(HomeTabFragment homeTabFragment, RecyclerAdapter adapter) {
+        this.view = homeTabFragment; // Upcasting HomeTabFragment > HomePresenter.View
         this.adapter = adapter;
         this.context = homeTabFragment.getContext();
     }
 
     @Provides
-    MainPresenter providePresenter(MainPresenterImpl presenter) {
+    HomePresenter providePresenter(HomePresenterImpl presenter) {
         return presenter;
     }
 
     @Provides
-    MainPresenter.View provideView() {
+    HomePresenter.View provideView() {
         return view;
     }
 

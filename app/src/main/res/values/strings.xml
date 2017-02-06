@@ -6,4 +6,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tool_bar_title">오늘의 레시피</string>
+    <string name="action_post">글쓰기</string>
+    <string name="settings">settings</string>
+    <string name="step">STEP</string>
+    <string name="please_insert_recipe">설명을 입력해주세요(필수)</string>
+    <string name="next_step">Next Step</string>
+    <string name="minute">분</string>
+    <string name="amount">인분</string>
+    <string name="materials_to_prepare">준비재료</string>
+    <string name="please_insert_tip">팁이 있으면 적어주세요</string>
 </resources>
