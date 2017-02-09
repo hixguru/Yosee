@@ -56,6 +56,9 @@
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
                     android:textColor="@android:color/white"
                     android:textSize="15sp"
                     />
@@ -84,6 +87,9 @@
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
                     android:textColor="@android:color/white"
                     android:textSize="15sp"
                     />
@@ -146,6 +152,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:hint="@string/please_insert_tip"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
                 android:textColorHint="#ffe0e0e0"
                 android:textSize="15sp"
                 />

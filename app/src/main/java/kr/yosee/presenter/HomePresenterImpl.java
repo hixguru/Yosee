@@ -7,8 +7,8 @@ import com.parse.ParseObject;
 import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import javax.inject.Inject;
-import kr.yosee.adapter.model.RecipeDataModel;
-import kr.yosee.adapter.view.RecipeAdapterView;
+import kr.yosee.adapter.model.RecyclerDataModel;
+import kr.yosee.adapter.view.ModelAdapterView;
 import kr.yosee.model.DetailRecipe;
 import kr.yosee.model.Recipe;
 import kr.yosee.util.DBHelper;
@@ -26,20 +26,20 @@ public class HomePresenterImpl implements HomePresenter {
     private final String SUB_TITLE = "SUB_TITLE";
     private final String MAIN_IMAGE = "MAIN_IMAGE";
     private HomePresenter.View view;
-    private RecipeDataModel recipeDataModel;
-    private RecipeAdapterView recipeAdapterView;
+    private RecyclerDataModel recyclerDataModel;
+    private ModelAdapterView modelAdapterView;
     private DBHelper dbHelper;
     private QueryGenerator queryGenerator;
     @Inject
     Context context;
 
     @Inject
-    HomePresenterImpl(HomePresenter.View view, RecipeDataModel recipeDataModel,
-                      RecipeAdapterView recipeAdapterView, DBHelper dbHelper,
+    HomePresenterImpl(HomePresenter.View view, RecyclerDataModel recyclerDataModel,
+                      ModelAdapterView modelAdapterView, DBHelper dbHelper,
                       QueryGenerator queryGenerator) {
         this.view = view;
-        this.recipeDataModel = recipeDataModel;
-        this.recipeAdapterView = recipeAdapterView;
+        this.recyclerDataModel = recyclerDataModel;
+        this.modelAdapterView = modelAdapterView;
         this.dbHelper = dbHelper;
         this.queryGenerator = queryGenerator;
     }
@@ -57,10 +57,10 @@ public class HomePresenterImpl implements HomePresenter {
                     ParseObject recipe = recipes.get(i);
                     String image = ((ParseFile) recipes.get(i).get(MAIN_IMAGE)).getUrl();
 
-                    // recipeDataModel.add(
+                    // recyclerDataModel.add(
                     //     new Recipe(image, recipe.getString(MAIN_TITLE), recipe.getString(SUB_TITLE),
                     //                recipe.getObjectId()));
-                    recipeDataModel.add(new Recipe(null, "zz", "zz", "123"));
+                    recyclerDataModel.add(new Recipe(null, "zz", "zz", "123"));
                 }
                 view.refresh();
                 view.hideLoadingBar();
@@ -69,9 +69,9 @@ public class HomePresenterImpl implements HomePresenter {
                 Log.e(TAG, "initData: e " + e.getMessage());
             });
 
-        recipeDataModel.add(new Recipe(null, "zz", "zz", "123"));
-        recipeDataModel.add(new Recipe(null, "zz", "zz", "123"));
-        recipeDataModel.add(new Recipe(null, "zz", "zz", "123"));
+        recyclerDataModel.add(new Recipe(null, "zz", "zz", "123"));
+        recyclerDataModel.add(new Recipe(null, "zz", "zz", "123"));
+        recyclerDataModel.add(new Recipe(null, "zz", "zz", "123"));
     }
 
     @Override

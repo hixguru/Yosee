@@ -1,7 +1,7 @@
 package kr.yosee.presenter;
 
 import android.support.v4.app.Fragment;
-import java.util.ArrayList;
+import kr.yosee.adapter.StepPagerAdapter;
 import kr.yosee.view.UploadDetailCoverActivity;
 
 /**
@@ -10,16 +10,30 @@ import kr.yosee.view.UploadDetailCoverActivity;
 
 public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresenter {
     private final UploadDetailCoverActivity uploadDetailCoverActivity;
-    private final ArrayList<Fragment> recipeStepList;
+    private final UploadDetailCoverPresenter.View view;
+    private StepPagerAdapter adapter;
 
     public UploadDetailCoverPresenterImpl(UploadDetailCoverActivity uploadDetailCoverActivity,
-                                          ArrayList<Fragment> recipeStepList) {
-
+                                          StepPagerAdapter adapter) {
         this.uploadDetailCoverActivity = uploadDetailCoverActivity;
-        this.recipeStepList = recipeStepList;
+        this.view = uploadDetailCoverActivity;
+        this.adapter = adapter;
     }
 
     @Override
-    public void attachView() {
+    public void attachView(Fragment fragment) {
+        adapter.addItem(fragment);
+    }
+
+    @Override
+    public void detachView() {
+        adapter.removeItem();
+        view.setLastItem(adapter.getCount());
+    }
+
+    @Override
+    public void addNextSteop(Fragment fragment) {
+        adapter.addItem(fragment);
+        view.setLastItem(adapter.getCount());
     }
 }

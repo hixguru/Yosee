@@ -26,10 +26,9 @@ public class UploadDetailMaterialFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
     public UploadDetailMaterialFragment() {
-        // Required empty public constructor
     }
 
-    public UploadDetailMaterialFragment newInstance(byte[] image) {
+    public static UploadDetailMaterialFragment newInstance(byte[] image) {
         UploadDetailMaterialFragment fragment = new UploadDetailMaterialFragment();
 
         Bundle args = new Bundle();
@@ -38,8 +37,9 @@ public class UploadDetailMaterialFragment extends Fragment {
         return fragment;
     }
 
-    @OnClick(R.id.iv_add_material) void addMaterial() {
-        adapter.add(new Material("","",""));
+    @OnClick(R.id.iv_add_material)
+    void addMaterial() {
+        adapter.add(new Material("", "", ""));
         adapter.notifyDataSetChanged();
     }
 
@@ -65,7 +65,7 @@ public class UploadDetailMaterialFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
         if (adapter.getItemCount() == 0) {
-            adapter.add(new Material("", "" ,""));
+            adapter.add(new Material("", "", ""));
             adapter.notifyDataSetChanged();
         }
 

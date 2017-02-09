@@ -4,8 +4,8 @@ import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
 import kr.yosee.adapter.RecyclerAdapter;
-import kr.yosee.adapter.model.RecipeDataModel;
-import kr.yosee.adapter.view.RecipeAdapterView;
+import kr.yosee.adapter.model.RecyclerDataModel;
+import kr.yosee.adapter.view.ModelAdapterView;
 import kr.yosee.presenter.HomePresenter;
 import kr.yosee.presenter.HomePresenterImpl;
 import kr.yosee.util.DBHelper;
@@ -40,12 +40,12 @@ public class HomeModule {
     }
 
     @Provides
-    RecipeDataModel provideRecipeDataModel() {
+    RecyclerDataModel provideRecipeDataModel() {
         return adapter;
     }
 
     @Provides
-    RecipeAdapterView provideRecipeAdaterView() {
+    ModelAdapterView provideRecipeAdaterView() {
         return adapter;
     }
 
