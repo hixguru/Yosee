@@ -27,7 +27,7 @@
         <activity android:name=".view.UploadActivity" />
         <activity
             android:name=".view.UploadDetailCoverActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

@@ -20,8 +20,8 @@ public class UploadDetailStepFragment extends Fragment implements UploadDetailSt
     public static final int REQUEST_STEP_IMAGE_CAPTURE = 100;
     public static final int REQUEST_STEP_IMAGE_FROM_GALLERY = 101;
 
-    @BindView(R.id.iv_step_image) ImageView stepImage;
-    @BindView(R.id.et_step_description) EditText stepDescription;
+    @BindView(R.id.iv_step_image) public ImageView stepImage;
+    @BindView(R.id.et_step_description) public EditText stepDescription;
 
     private UploadDetailStepPresenter presenter;
 
@@ -79,6 +79,6 @@ public class UploadDetailStepFragment extends Fragment implements UploadDetailSt
 
     @OnClick(R.id.btn_next_step) void addNextStep() {
         UploadDetailCoverActivity activity = (UploadDetailCoverActivity) getActivity();
-        activity.getPresenter().addNextSteop(newInstance());
+        activity.getPresenter().addNextStep(newInstance());
     }
 }

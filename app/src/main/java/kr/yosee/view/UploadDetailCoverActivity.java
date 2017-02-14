@@ -25,6 +25,7 @@ public class UploadDetailCoverActivity extends AppCompatActivity
     private UploadDetailCoverPresenterImpl presenter;
     private StepPagerAdapter adapter;
     private Menu menu;
+
     public PublishSubject<ActivityResultEvent> subject;
 
     @Override
@@ -35,6 +36,9 @@ public class UploadDetailCoverActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         byte[] byteToBitmap = getIntent().getByteArrayExtra("main_image");
+        String mainImage = getIntent().getStringExtra("main_title");
+        String mainDescription = getIntent().getStringExtra("main_description");
+
         subject = PublishSubject.create();
 
         adapter = new StepPagerAdapter(getSupportFragmentManager(), this);
@@ -44,7 +48,6 @@ public class UploadDetailCoverActivity extends AppCompatActivity
             @Override
             public void onPageScrolled(int position, float positionOffset,
                                        int positionOffsetPixels) {
-
             }
 
             @Override
@@ -52,10 +55,10 @@ public class UploadDetailCoverActivity extends AppCompatActivity
                 if (position == 0) {
                     menu.findItem(R.id.action_remove).setVisible(false);
                     menu.findItem(R.id.action_complete).setVisible(false);
-                } else if (position == 2 && position == adapter.getCount() -1) {
+                } else if (position == 1 && position == adapter.getCount() - 1) {
                     menu.findItem(R.id.action_complete).setVisible(true);
                 } else if (position > 2) {
-                    if (position == adapter.getCount() -1) {
+                    if (position == adapter.getCount() - 1) {
                         menu.findItem(R.id.action_remove).setVisible(true);
                         menu.findItem(R.id.action_complete).setVisible(true);
                     } else {
@@ -107,6 +110,7 @@ public class UploadDetailCoverActivity extends AppCompatActivity
                 presenter.detachView();
                 return true;
             case R.id.action_complete:
+                presenter.uploadRecipe();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -63,7 +63,7 @@ public class UploadActivity extends AppCompatActivity implements UploadPresenter
     }
 
     @OnClick(R.id.btn_next_step)
-    public void nagivateToDetailRecipe() {
+    public void navigateToDetailRecipe() {
         presenter.navigateToDetailRecipe(mainImage,
                                          etMainTitle.getText().toString(),
                                          etMainDescription.getText().toString());

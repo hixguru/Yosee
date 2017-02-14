@@ -60,7 +60,7 @@ public class HomeTabFragment extends Fragment implements HomePresenter.View {
         recyclerView.setAdapter(adapter);
         adapter.setOnRecyclerItemClickListener((adapter1, position) -> {
             Recipe recipe = (Recipe) adapter1.getItem(position);
-            presenter.getMoreRecipeInfo(recipe.getObjectId());
+            presenter.getMoreRecipeInfo(recipe.mainStep.mainTitle);
         });
 
         presenter.initData();

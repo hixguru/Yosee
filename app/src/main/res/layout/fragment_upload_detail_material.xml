@@ -147,7 +147,7 @@
                 android:src="@drawable/tip"
                 />
             <EditText
-                android:id="@+id/tip"
+                android:id="@+id/et_tip"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

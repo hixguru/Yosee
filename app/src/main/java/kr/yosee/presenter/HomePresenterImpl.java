@@ -2,8 +2,11 @@ package kr.yosee.presenter;
 
 import android.content.Context;
 import android.util.Log;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import javax.inject.Inject;
@@ -11,6 +14,7 @@ import kr.yosee.adapter.model.RecyclerDataModel;
 import kr.yosee.adapter.view.ModelAdapterView;
 import kr.yosee.model.DetailRecipe;
 import kr.yosee.model.Recipe;
+import kr.yosee.util.Constants;
 import kr.yosee.util.DBHelper;
 import kr.yosee.util.QueryGenerator;
 
@@ -47,31 +51,51 @@ public class HomePresenterImpl implements HomePresenter {
     @Override
     public void initData() {
         view.showLoadingBar();
-        queryGenerator.initTable(TABLE_NAME);
-        queryGenerator.orderByDescending("updateAt");
-
-        dbHelper.setQuery(queryGenerator.getQuery());
-        dbHelper.getResult()
-            .subscribe(recipes -> {
-                for (int i = 0; i < recipes.size(); i++) {
-                    ParseObject recipe = recipes.get(i);
-                    String image = ((ParseFile) recipes.get(i).get(MAIN_IMAGE)).getUrl();
-
-                    // recyclerDataModel.add(
-                    //     new Recipe(image, recipe.getString(MAIN_TITLE), recipe.getString(SUB_TITLE),
-                    //                recipe.getObjectId()));
-                    recyclerDataModel.add(new Recipe(null, "zz", "zz", "123"));
-                }
-                view.refresh();
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Recipe recipe = dataSnapshot.getValue(Recipe.class);
+                // Log.e(TAG, "onDataChange: recipe > " + recipe.mainStep.mainTitle);
+                // recyclerDataModel.add(recipe);
+                // view.refresh();
                 view.hideLoadingBar();
-            }, e -> {
-                view.hideLoadingBar();
-                Log.e(TAG, "initData: e " + e.getMessage());
-            });
+            }
 
-        recyclerDataModel.add(new Recipe(null, "zz", "zz", "123"));
-        recyclerDataModel.add(new Recipe(null, "zz", "zz", "123"));
-        recyclerDataModel.add(new Recipe(null, "zz", "zz", "123"));
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        DatabaseReference reference =
+            FirebaseDatabase.getInstance().getReference().child(Constants.RECIPES);
+        reference.addValueEventListener(listener);
+
+        // queryGenerator.initTable(TABLE_NAME);
+        // queryGenerator.orderByDescending("updateAt");
+        //
+        // dbHelper.setQuery(queryGenerator.getQuery());
+        // dbHelper.getResult()
+        //     .subscribe(recipes -> {
+        //         for (int i = 0; i < recipes.size(); i++) {
+        //             ParseObject recipe = recipes.get(i);
+        //             String image = ((ParseFile) recipes.get(i).get(MAIN_IMAGE)).getUrl();
+        //
+        //             // recyclerDataModel.add(
+        //             //     new Recipe(image, recipe.getString(MAIN_TITLE), recipe.getString(SUB_TITLE),
+        //             //                recipe.getObjectId()));
+        //             recyclerDataModel.add(new Recipe("zz", "zz", "zz", "zz", null));
+        //         }
+        //         view.refresh();
+        //         view.hideLoadingBar();
+        //     }, e -> {
+        //         view.hideLoadingBar();
+        //         Log.e(TAG, "initData: e " + e.getMessage());
+        //     });
+        //
+        // recyclerDataModel.add(new Recipe("zz", "zz", "zz", "zz", null));
+        // recyclerDataModel.add(new Recipe("zz", "zz", "zz", "zz", null));
+        // recyclerDataModel.add(new Recipe("zz", "zz", "zz", "zz", null));
     }
 
     @Override

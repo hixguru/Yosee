@@ -11,7 +11,9 @@ public interface UploadDetailCoverPresenter {
 
     void detachView();
 
-    void addNextSteop(Fragment fragment);
+    void addNextStep(Fragment fragment);
+
+    void uploadRecipe();
 
     interface View {
         void refresh();

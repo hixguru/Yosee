@@ -5,9 +5,12 @@ package kr.yosee.model;
  */
 
 public class Material {
-    private String matName;
-    private String matAmount;
-    private String matUnit;
+    public String matName;
+    public String matAmount;
+    public String matUnit;
+
+    public Material() {
+    }
 
     public Material(String matName, String matAmount, String matUnit) {
         this.matName = matName;

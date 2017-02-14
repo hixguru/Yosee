@@ -7,18 +7,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import java.util.ArrayList;
+import java.util.List;
 import kr.yosee.R;
 import kr.yosee.adapter.RecyclerAdapter;
 import kr.yosee.model.Material;
 import kr.yosee.util.Util;
 
 public class UploadDetailMaterialFragment extends Fragment {
-    @BindView(R.id.rv_mat) RecyclerView recyclerView;
-    @BindView(R.id.iv_bg_img) ImageView ivBackground;
+    @BindView(R.id.rv_mat) public RecyclerView recyclerView;
+    @BindView(R.id.iv_bg_img) public ImageView ivBackground;
+    @BindView(R.id.et_recipe_time) public EditText etRecipeTime;
+    @BindView(R.id.et_recipe_amount) public EditText etRecipeAmount;
+    @BindView(R.id.et_tip) public EditText etTip;
 
     private static final String ARG_MAIN_IMAGE = "param1";
     private byte[] image;
@@ -70,5 +76,13 @@ public class UploadDetailMaterialFragment extends Fragment {
         }
 
         return view;
+    }
+
+    public List<Material> getMaterialList() {
+        List<Material> list = new ArrayList<>();
+        for (int i = 0; i < adapter.getItemCount(); i++) {
+            list.add(adapter.getItem(i));
+        }
+        return list;
     }
 }
