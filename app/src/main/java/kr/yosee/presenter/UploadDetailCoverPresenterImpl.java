@@ -67,6 +67,6 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
         // Recipe recipe = new Recipe(FirebaseAuth.getInstance().getCurrentUser().getUid(), mainTitle,
         //                            mainDescription, imageEncoded, materialList);
 
-        database.child(Constants.RECIPES).setValue(recipe.toMap());
+        database.child(Constants.RECIPES).child("test").setValue(recipe.toMap());
     }
 }
