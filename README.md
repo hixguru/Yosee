@@ -4,6 +4,8 @@
 뭣도 모르고 여기저기 가져와서 만든 앱이지만 그래도 완성도 높은 앱이였는데 Parse가 접으면서 DB가 날라가
 앱이 구동이 안되니... 안타까움이 가슴을 후벼판다. 이왕 이렇게 된거 마이그레이션 & 리펙토링 하면서 공부한거 다 써먹어 보자 ^.^...
 
+- 기존 코드 : https://github.com/HwanIk/AndroidWear/tree/master/materialtest2
+
 ## TODO
 1. Parse DB > Firebase Real DB로 이전
 2. RxJava or RxJava2 적용
