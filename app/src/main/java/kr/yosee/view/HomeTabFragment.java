@@ -15,8 +15,8 @@ import javax.inject.Inject;
 import kr.yosee.R;
 import kr.yosee.YoseeApplication;
 import kr.yosee.adapter.RecyclerAdapter;
-import kr.yosee.adapter.model.RecipeDataModel;
-import kr.yosee.adapter.view.RecipeAdapterView;
+import kr.yosee.adapter.model.RecyclerDataModel;
+import kr.yosee.adapter.view.ModelAdapterView;
 import kr.yosee.dagger.module.HomeModule;
 import kr.yosee.dagger.view.DaggerHomeComponent;
 import kr.yosee.model.Recipe;
@@ -27,8 +27,8 @@ public class HomeTabFragment extends Fragment implements HomePresenter.View {
     private static final String TAG = HomeTabFragment.class.getSimpleName();
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @Inject HomePresenter presenter;
-    @Inject RecipeDataModel recipeDataModel;
-    @Inject RecipeAdapterView recipeAdapterView;
+    @Inject RecyclerDataModel recyclerDataModel;
+    @Inject ModelAdapterView modelAdapterView;
     private RecyclerAdapter<Recipe> adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ProgressDialog dialog;
@@ -60,7 +60,7 @@ public class HomeTabFragment extends Fragment implements HomePresenter.View {
         recyclerView.setAdapter(adapter);
         adapter.setOnRecyclerItemClickListener((adapter1, position) -> {
             Recipe recipe = (Recipe) adapter1.getItem(position);
-            presenter.getMoreRecipeInfo(recipe.getObjectId());
+            presenter.getMoreRecipeInfo(recipe.mainStep.mainTitle);
         });
 
         presenter.initData();
@@ -80,6 +80,6 @@ public class HomeTabFragment extends Fragment implements HomePresenter.View {
 
     @Override
     public void refresh() {
-        recipeAdapterView.refresh();
+        modelAdapterView.refresh();
     }
 }

@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 import kr.yosee.R;
-import kr.yosee.adapter.model.RecipeDataModel;
+import kr.yosee.adapter.model.RecyclerDataModel;
 import kr.yosee.adapter.view.BaseViewHolder;
-import kr.yosee.adapter.view.RecipeAdapterView;
+import kr.yosee.adapter.view.ModelAdapterView;
 import kr.yosee.adapter.view.holder.MainRecipeViewHolder;
 import kr.yosee.adapter.view.holder.MaterialViewHolder;
 import kr.yosee.view.listeners.OnRecyclerItemClickListener;
@@ -20,7 +20,7 @@ import kr.yosee.view.listeners.OnRecyclerItemClickListener;
  */
 
 public class RecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>>
-    implements RecipeDataModel<T>, RecipeAdapterView {
+    implements RecyclerDataModel<T>, ModelAdapterView {
 
     public static final int MAIN_VIEW = 0;
     public static final int MATERIAL_VIEW = 1;
@@ -44,11 +44,11 @@ public class RecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>>
         switch (viewHolderType) {
             case MAIN_VIEW:
                 view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.fragment_home_recipe_item, parent, false);
+                    .inflate(R.layout.home_recipe_item, parent, false);
                 return (BaseViewHolder<T>) new MainRecipeViewHolder(this, view);
             case MATERIAL_VIEW:
                 view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.material_item, parent, false);
+                    .inflate(R.layout.recipe_material_item, parent, false);
                 return (BaseViewHolder<T>) new MaterialViewHolder(this, view);
             default:
                 return null;

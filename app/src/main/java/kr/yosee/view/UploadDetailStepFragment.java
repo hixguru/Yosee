@@ -1,57 +1,84 @@
 package kr.yosee.view;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import kr.yosee.R;
+import kr.yosee.presenter.UploadDetailStepPresenter;
+import kr.yosee.presenter.UploadDetailStepPresenterImpl;
 
-public class UploadDetailStepFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class UploadDetailStepFragment extends Fragment implements UploadDetailStepPresenter.View {
+    public static final int REQUEST_STEP_IMAGE_CAPTURE = 100;
+    public static final int REQUEST_STEP_IMAGE_FROM_GALLERY = 101;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @BindView(R.id.iv_step_image) public ImageView stepImage;
+    @BindView(R.id.et_step_description) public EditText stepDescription;
+
+    private UploadDetailStepPresenter presenter;
 
     public UploadDetailStepFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UploadDetailStepFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UploadDetailStepFragment newInstance(String param1, String param2) {
-        UploadDetailStepFragment fragment = new UploadDetailStepFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static UploadDetailStepFragment newInstance() {
+        return new UploadDetailStepFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        presenter = new UploadDetailStepPresenterImpl(this);
+        UploadDetailCoverActivity activity = (UploadDetailCoverActivity) getActivity();
+        activity.subject
+            .subscribe(res -> {
+                presenter.onActivityResult(res);
+            });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_upload_detail_step, container, false);
+        View view = inflater.inflate(R.layout.fragment_upload_detail_step, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @OnClick(R.id.iv_step_image) void getPhoto() {
+        final CharSequence[] items = { "사진 촬영하기", "갤러리에서 가져오기", "Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setItems(items, (dialog, item) -> {
+            switch (item) {
+                case 0:
+                    presenter.takePicture();
+                    break;
+                case 1:
+                    presenter.getPictureFromGallery();
+                    break;
+                case 2:
+                    dialog.dismiss();
+                    break;
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void setStepImage(Bitmap bitmap) {
+        stepImage.setImageBitmap(bitmap);
+    }
+
+    @OnClick(R.id.btn_next_step) void addNextStep() {
+        UploadDetailCoverActivity activity = (UploadDetailCoverActivity) getActivity();
+        activity.getPresenter().addNextStep(newInstance());
     }
 }
