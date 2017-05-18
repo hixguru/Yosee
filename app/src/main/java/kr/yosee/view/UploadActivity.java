@@ -17,6 +17,7 @@ import java.io.IOException;
 import kr.yosee.R;
 import kr.yosee.presenter.UploadPresenter;
 import kr.yosee.presenter.UploadPresenterImpl;
+import kr.yosee.util.Util;
 
 public class UploadActivity extends AppCompatActivity implements UploadPresenter.View {
     // CONSTANTS
@@ -43,7 +44,7 @@ public class UploadActivity extends AppCompatActivity implements UploadPresenter
 
     @OnClick(R.id.iv_main_img)
     public void getPhoto() {
-        final CharSequence[] items = { "사진 촬영하기", "갤러리에서 가져오기", "Cancel" };
+        final CharSequence[] items = {"사진 촬영하기", "갤러리에서 가져오기", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
         builder.setItems(items, (dialog, item) -> {
@@ -65,8 +66,8 @@ public class UploadActivity extends AppCompatActivity implements UploadPresenter
     @OnClick(R.id.btn_next_step)
     public void navigateToDetailRecipe() {
         presenter.navigateToDetailRecipe(mainImage,
-                                         etMainTitle.getText().toString(),
-                                         etMainDescription.getText().toString());
+            etMainTitle.getText().toString(),
+            etMainDescription.getText().toString());
     }
 
     public void setImage(Bitmap imageBitmap) {
@@ -84,8 +85,13 @@ public class UploadActivity extends AppCompatActivity implements UploadPresenter
     }
 
     @Override
-    public void navigateToDetailPage(Intent intent) {
+    public void navigateToDetailPage(Bitmap mainImage, String mainTitle, String mainDescription) {
+        Intent intent = new Intent(this, UploadDetailCoverActivity.class);
+        intent.putExtra("main_image", Util.bitmapToByteArr(mainImage));
+        intent.putExtra("main_title", mainTitle);
+        intent.putExtra("main_description", mainDescription);
         startActivity(intent);
+        finish();
     }
 
     @Override

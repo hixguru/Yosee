@@ -22,8 +22,8 @@ import kr.yosee.util.Util;
 public class UploadDetailMaterialFragment extends Fragment {
     @BindView(R.id.rv_mat) public RecyclerView recyclerView;
     @BindView(R.id.iv_bg_img) public ImageView ivBackground;
-    @BindView(R.id.et_recipe_time) public EditText etRecipeTime;
-    @BindView(R.id.et_recipe_amount) public EditText etRecipeAmount;
+    @BindView(R.id.et_cooking_time) public EditText etCookingTime;
+    @BindView(R.id.et_serving) public EditText etServing;
     @BindView(R.id.et_tip) public EditText etTip;
 
     private static final String ARG_MAIN_IMAGE = "param1";

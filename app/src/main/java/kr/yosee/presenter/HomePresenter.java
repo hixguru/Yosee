@@ -12,9 +12,9 @@ public interface HomePresenter {
 
     interface View {
 
-        void showLoadingBar();
+        void showProgress();
 
-        void hideLoadingBar();
+        void hideProgress();
 
         void refresh();
     }

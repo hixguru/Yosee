@@ -19,13 +19,8 @@ public class Recipe {
     }
 
     public static class Builder {
-        public String uid;
         public List<Material> materials;
         public MainStep mainStep;
-
-        public Builder(String uid) {
-            this.uid = uid;
-        }
 
         public Builder main(MainStep mainStep) {
             this.mainStep = mainStep;
@@ -43,7 +38,6 @@ public class Recipe {
     }
 
     public Recipe(Builder builder) {
-        this.uid = builder.uid;
         this.mainStep = builder.mainStep;
         this.materials = builder.materials;
     }

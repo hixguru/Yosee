@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.subjects.PublishSubject;
@@ -36,8 +37,6 @@ public class UploadDetailCoverActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         byte[] byteToBitmap = getIntent().getByteArrayExtra("main_image");
-        String mainImage = getIntent().getStringExtra("main_title");
-        String mainDescription = getIntent().getStringExtra("main_description");
 
         subject = PublishSubject.create();
 
@@ -92,6 +91,16 @@ public class UploadDetailCoverActivity extends AppCompatActivity
         if (position <= adapter.getCount()) {
             viewPager.setCurrentItem(position);
         }
+    }
+
+    @Override
+    public void showEmptyStep() {
+        Toast.makeText(this, "레시피의 스텝을 입력해주세요", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSuccessUpload() {
+        finish();
     }
 
     @Override

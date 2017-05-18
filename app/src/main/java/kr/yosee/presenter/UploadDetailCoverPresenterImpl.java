@@ -1,17 +1,19 @@
 package kr.yosee.presenter;
 
 import android.support.v4.app.Fragment;
-import android.util.Base64;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.util.Log;
+import com.google.gson.Gson;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import java.util.List;
 import kr.yosee.adapter.StepPagerAdapter;
 import kr.yosee.model.Material;
-import kr.yosee.model.Recipe;
-import kr.yosee.util.Constants;
+import kr.yosee.util.Util;
 import kr.yosee.view.UploadDetailCoverActivity;
 import kr.yosee.view.UploadDetailMaterialFragment;
+import kr.yosee.view.UploadDetailStepFragment;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Created by hwanik on 2017. 2. 4..
@@ -21,14 +23,12 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
     private final UploadDetailCoverActivity activity;
     private final UploadDetailCoverPresenter.View view;
     private StepPagerAdapter adapter;
-    private DatabaseReference database;
 
     public UploadDetailCoverPresenterImpl(UploadDetailCoverActivity activity,
                                           StepPagerAdapter adapter) {
         this.activity = activity;
         this.view = activity;
         this.adapter = adapter;
-        this.database = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -51,22 +51,36 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
     @Override
     public void uploadRecipe() {
         byte[] mainImage = activity.getIntent().getByteArrayExtra("main_image");
-        String imageEncoded = Base64.encodeToString(mainImage, Base64.DEFAULT);
         String mainTitle = activity.getIntent().getStringExtra("main_title");
         String mainDescription = activity.getIntent().getStringExtra("main_description");
 
         UploadDetailMaterialFragment firstStep = (UploadDetailMaterialFragment) adapter.getItem(0);
+
         List<Material> materialList = firstStep.getMaterialList();
+        ParseFile mainImageFile = new ParseFile("main_image", mainImage);
 
-        Recipe recipe =
-            new Recipe.Builder(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .main(new Recipe.MainStep(mainTitle, mainDescription, imageEncoded))
-                .mat(materialList)
-                .build();
+        List<Fragment> steps = adapter.getSteps();
 
-        // Recipe recipe = new Recipe(FirebaseAuth.getInstance().getCurrentUser().getUid(), mainTitle,
-        //                            mainDescription, imageEncoded, materialList);
+        ParseObject post = new ParseObject("recipe1");
+        post.put("main_image", mainImageFile);
+        post.put("main_title", mainTitle);
+        post.put("main_description", mainDescription);
+        post.put("serving", firstStep.etServing.getText().toString());
+        post.put("cooking_time", firstStep.etCookingTime.getText().toString());
+        post.put("tip", firstStep.etTip.getText().toString());
+        post.put("materials", new Gson().toJson(materialList));
+        for (int i = 1; i < steps.size(); i++) {
+            UploadDetailStepFragment step = (UploadDetailStepFragment) steps.get(i);
+            ParseFile stepImage = new ParseFile("step_" + i, Util.bitmapToByteArr(step.stepBitmapImage));
+            post.put("step_image_" + (i + 1), stepImage);
+            post.put("step_description_" + (i +1), step.stepDescription.getText().toString());
+        }
 
-        database.child(Constants.RECIPES).child("test").setValue(recipe.toMap());
+        post.saveInBackground(e -> {
+            if (e == null) {
+                Log.e(TAG, "uploadRecipe: upload 성공");
+                view.onSuccessUpload();
+            }
+        });
     }
 }

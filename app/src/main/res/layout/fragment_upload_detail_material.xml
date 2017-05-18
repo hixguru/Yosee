@@ -52,13 +52,14 @@
                     android:src="@drawable/clock_icon"
                     />
                 <EditText
-                    android:id="@+id/et_recipe_time"
+                    android:id="@+id/et_cooking_time"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:maxLines="1"
+                    android:maxLength="3"
                     android:textColor="@android:color/white"
                     android:textSize="15sp"
                     />
@@ -83,13 +84,14 @@
                     android:src="@drawable/nman_icon"
                     />
                 <EditText
-                    android:id="@+id/et_recipe_amount"
+                    android:id="@+id/et_serving"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:maxLines="1"
+                    android:maxLength="2"
                     android:textColor="@android:color/white"
                     android:textSize="15sp"
                     />

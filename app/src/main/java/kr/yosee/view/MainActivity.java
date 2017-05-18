@@ -6,21 +6,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.parse.Parse;
 import kr.yosee.R;
 import kr.yosee.adapter.MainPagerAdapter;
-import kr.yosee.model.Recipe;
-import kr.yosee.util.Constants;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -38,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt",
-                         "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
         setSupportActionBar(toolbar);
         initView();

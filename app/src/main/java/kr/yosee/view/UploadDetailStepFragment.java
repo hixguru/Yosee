@@ -24,6 +24,7 @@ public class UploadDetailStepFragment extends Fragment implements UploadDetailSt
     @BindView(R.id.et_step_description) public EditText stepDescription;
 
     private UploadDetailStepPresenter presenter;
+    public Bitmap stepBitmapImage;
 
     public UploadDetailStepFragment() {
     }
@@ -39,9 +40,7 @@ public class UploadDetailStepFragment extends Fragment implements UploadDetailSt
         presenter = new UploadDetailStepPresenterImpl(this);
         UploadDetailCoverActivity activity = (UploadDetailCoverActivity) getActivity();
         activity.subject
-            .subscribe(res -> {
-                presenter.onActivityResult(res);
-            });
+            .subscribe(res -> presenter.onActivityResult(res));
     }
 
     @Override
@@ -74,6 +73,7 @@ public class UploadDetailStepFragment extends Fragment implements UploadDetailSt
 
     @Override
     public void setStepImage(Bitmap bitmap) {
+        stepBitmapImage = bitmap;
         stepImage.setImageBitmap(bitmap);
     }
 

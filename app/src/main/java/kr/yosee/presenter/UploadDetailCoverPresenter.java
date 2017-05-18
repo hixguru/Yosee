@@ -19,5 +19,9 @@ public interface UploadDetailCoverPresenter {
         void refresh();
 
         void setLastItem(int position);
+
+        void showEmptyStep();
+
+        void onSuccessUpload();
     }
 }
