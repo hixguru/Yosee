@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+import java.util.List;
 import kr.yosee.adapter.model.PagerDataModel;
 import kr.yosee.adapter.view.ModelPagerView;
 import kr.yosee.presenter.UploadDetailCoverPresenter;
@@ -60,5 +61,9 @@ public class StepPagerAdapter extends FragmentStatePagerAdapter
     @Override
     public void refresh() {
         view.refresh();
+    }
+
+    public List<Fragment> getSteps() {
+        return list;
     }
 }

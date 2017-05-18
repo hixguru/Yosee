@@ -6,6 +6,7 @@ import dagger.Provides;
 import kr.yosee.adapter.RecyclerAdapter;
 import kr.yosee.adapter.model.RecyclerDataModel;
 import kr.yosee.adapter.view.ModelAdapterView;
+import kr.yosee.model.Recipe;
 import kr.yosee.presenter.HomePresenter;
 import kr.yosee.presenter.HomePresenterImpl;
 import kr.yosee.util.DBHelper;
@@ -20,10 +21,10 @@ import kr.yosee.view.HomeTabFragment;
 public class HomeModule {
 
     private HomePresenter.View view;
-    private RecyclerAdapter adapter;
+    private RecyclerAdapter<Recipe> adapter;
     private Context context;
 
-    public HomeModule(HomeTabFragment homeTabFragment, RecyclerAdapter adapter) {
+    public HomeModule(HomeTabFragment homeTabFragment, RecyclerAdapter<Recipe> adapter) {
         this.view = homeTabFragment; // Upcasting HomeTabFragment > HomePresenter.View
         this.adapter = adapter;
         this.context = homeTabFragment.getContext();
@@ -40,7 +41,7 @@ public class HomeModule {
     }
 
     @Provides
-    RecyclerDataModel provideRecipeDataModel() {
+    RecyclerDataModel<Recipe> provideRecipeDataModel() {
         return adapter;
     }
 
