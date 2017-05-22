@@ -18,9 +18,9 @@ public interface UploadDetailCoverPresenter {
     interface View {
         void refresh();
 
-        void setLastItem(int position);
+        void setViewPagerPosition(int position);
 
-        void showEmptyStep();
+        void showEmptyItem(String msg);
 
         void onSuccessUpload();
     }

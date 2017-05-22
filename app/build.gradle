@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 
 
@@ -31,6 +32,10 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -59,7 +64,7 @@ dependencies {
 
     // FirbaseBase
     compile 'com.google.firebase:firebase-auth:10.0.1'
-    compile 'com.google.android.gms:play-services-auth:10.2.1'
+    compile 'com.google.android.gms:play-services-auth:10.0.1'
     compile 'com.google.firebase:firebase-database:10.0.1'
 
     // Parse BaaS
@@ -69,5 +74,8 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 
     testCompile 'junit:junit:4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
+
 apply plugin: 'com.google.gms.google-services'
+

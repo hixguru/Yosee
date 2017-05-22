@@ -87,15 +87,15 @@ public class UploadDetailCoverActivity extends AppCompatActivity
     }
 
     @Override
-    public void setLastItem(int position) {
-        if (position <= adapter.getCount()) {
-            viewPager.setCurrentItem(position);
-        }
+    public void showEmptyItem(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showEmptyStep() {
-        Toast.makeText(this, "레시피의 스텝을 입력해주세요", Toast.LENGTH_SHORT).show();
+    public void setViewPagerPosition(int position) {
+        if (position <= adapter.getCount()) {
+            viewPager.setCurrentItem(position);
+        }
     }
 
     @Override

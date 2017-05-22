@@ -1,6 +1,7 @@
 package kr.yosee.presenter;
 
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.parse.ParseFile;
@@ -39,13 +40,13 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
     @Override
     public void detachView() {
         adapter.removeItem();
-        view.setLastItem(adapter.getCount());
+        view.setViewPagerPosition(adapter.getCount());
     }
 
     @Override
     public void addNextStep(Fragment fragment) {
         adapter.addItem(fragment);
-        view.setLastItem(adapter.getCount());
+        view.setViewPagerPosition(adapter.getCount());
     }
 
     @Override
@@ -54,12 +55,14 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
         String mainTitle = activity.getIntent().getStringExtra("main_title");
         String mainDescription = activity.getIntent().getStringExtra("main_description");
 
-        UploadDetailMaterialFragment firstStep = (UploadDetailMaterialFragment) adapter.getItem(0);
-
-        List<Material> materialList = firstStep.getMaterialList();
         ParseFile mainImageFile = new ParseFile("main_image", mainImage);
 
+        UploadDetailMaterialFragment firstStep = (UploadDetailMaterialFragment) adapter.getItem(0);
+        List<Material> materialList = firstStep.getMaterialList();
+
         List<Fragment> steps = adapter.getSteps();
+
+        if (!isReadyToUpload(firstStep)) return;
 
         ParseObject post = new ParseObject("recipe1");
         post.put("main_image", mainImageFile);
@@ -82,5 +85,40 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
                 view.onSuccessUpload();
             }
         });
+    }
+
+    private boolean isReadyToUpload(UploadDetailMaterialFragment firstStep) {
+        String serving = firstStep.etServing.getText().toString();
+        String cookingTime = firstStep.etCookingTime.getText().toString();
+        List<Material> materialList = firstStep.getMaterialList();
+        String tip = firstStep.etTip
+
+        if (TextUtils.isEmpty(cookingTime)) {
+            firstStep.etCookingTime.requestFocus();
+            view.showEmptyItem("요리는 얼마나 걸리나요?");
+            view.setViewPagerPosition(0);
+            return false;
+        }
+
+        if (TextUtils.isEmpty(serving)) {
+            firstStep.etServing.requestFocus();
+            view.showEmptyItem("누구와 함께 먹을건가요?");
+            view.setViewPagerPosition(0);
+            return false;
+        }
+
+        if (materialList.size() == 0) {
+            view.showEmptyItem("재료를 입력해주세요.");
+            view.setViewPagerPosition(0);
+            return false;
+        }
+
+        if (TextUtils.isEmpty(tip)) {
+            view.showEmptyItem("알아두면 좋은 팁이 있을까요?");
+            view.setViewPagerPosition(0);
+            return false;
+        }
+
+        return true;
     }
 }
