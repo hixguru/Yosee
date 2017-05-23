@@ -2,7 +2,6 @@ package kr.yosee.presenter;
 
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import com.google.gson.Gson;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -13,8 +12,6 @@ import kr.yosee.util.Util;
 import kr.yosee.view.UploadDetailCoverActivity;
 import kr.yosee.view.UploadDetailMaterialFragment;
 import kr.yosee.view.UploadDetailStepFragment;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Created by hwanik on 2017. 2. 4..
@@ -62,7 +59,7 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
 
         List<Fragment> steps = adapter.getSteps();
 
-        if (!isReadyToUpload(firstStep)) return;
+        if (!isReadyToUpload(firstStep, steps)) return;
 
         ParseObject post = new ParseObject("recipe1");
         post.put("main_image", mainImageFile);
@@ -72,26 +69,29 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
         post.put("cooking_time", firstStep.etCookingTime.getText().toString());
         post.put("tip", firstStep.etTip.getText().toString());
         post.put("materials", new Gson().toJson(materialList));
+
         for (int i = 1; i < steps.size(); i++) {
             UploadDetailStepFragment step = (UploadDetailStepFragment) steps.get(i);
-            ParseFile stepImage = new ParseFile("step_" + i, Util.bitmapToByteArr(step.stepBitmapImage));
-            post.put("step_image_" + (i + 1), stepImage);
-            post.put("step_description_" + (i +1), step.stepDescription.getText().toString());
+            ParseFile stepImage =
+                new ParseFile("step" + i, Util.bitmapToByteArr(step.stepBitmapImage));
+            post.put("step_image_" + i, stepImage);
+            post.put("step_description_" + i, step.stepDescription.getText().toString());
         }
 
+        view.showProgress();
         post.saveInBackground(e -> {
             if (e == null) {
-                Log.e(TAG, "uploadRecipe: upload 성공");
+                view.hideProgress();
                 view.onSuccessUpload();
             }
         });
     }
 
-    private boolean isReadyToUpload(UploadDetailMaterialFragment firstStep) {
+    private boolean isReadyToUpload(UploadDetailMaterialFragment firstStep, List<Fragment> steps) {
         String serving = firstStep.etServing.getText().toString();
         String cookingTime = firstStep.etCookingTime.getText().toString();
         List<Material> materialList = firstStep.getMaterialList();
-        String tip = firstStep.etTip
+        String tip = firstStep.etTip.getText().toString();
 
         if (TextUtils.isEmpty(cookingTime)) {
             firstStep.etCookingTime.requestFocus();
@@ -117,6 +117,15 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
             view.showEmptyItem("알아두면 좋은 팁이 있을까요?");
             view.setViewPagerPosition(0);
             return false;
+        }
+
+        for (int i = 1; i < steps.size(); i++) {
+            UploadDetailStepFragment fragment = (UploadDetailStepFragment) steps.get(i);
+            if (fragment.isStepEmpty()) {
+                view.showEmptyItem("이미지 또는 설명을 모두 입력해주세요");
+                view.setViewPagerPosition(i);
+                return false;
+            }
         }
 
         return true;

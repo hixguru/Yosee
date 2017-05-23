@@ -23,5 +23,9 @@ public interface UploadDetailCoverPresenter {
         void showEmptyItem(String msg);
 
         void onSuccessUpload();
+
+        void showProgress();
+
+        void hideProgress();
     }
 }

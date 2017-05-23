@@ -1,5 +1,6 @@
 package kr.yosee.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -28,6 +29,7 @@ public class UploadDetailCoverActivity extends AppCompatActivity
     private Menu menu;
 
     public PublishSubject<ActivityResultEvent> subject;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +56,10 @@ public class UploadDetailCoverActivity extends AppCompatActivity
                 if (position == 0) {
                     menu.findItem(R.id.action_remove).setVisible(false);
                     menu.findItem(R.id.action_complete).setVisible(false);
-                } else if (position == 1 && position == adapter.getCount() - 1) {
+                } else if (adapter.getCount() - 1 == 1) {
+                    menu.findItem(R.id.action_remove).setVisible(false);
                     menu.findItem(R.id.action_complete).setVisible(true);
-                } else if (position > 2) {
+                } else if (position > 1) {
                     if (position == adapter.getCount() - 1) {
                         menu.findItem(R.id.action_remove).setVisible(true);
                         menu.findItem(R.id.action_complete).setVisible(true);
@@ -101,6 +104,16 @@ public class UploadDetailCoverActivity extends AppCompatActivity
     @Override
     public void onSuccessUpload() {
         finish();
+    }
+
+    @Override
+    public void showProgress() {
+        dialog = ProgressDialog.show(this, "레시피 로딩중", "잠시만 기다려주세요.", true, true);
+    }
+
+    @Override
+    public void hideProgress() {
+        dialog.dismiss();
     }
 
     @Override
