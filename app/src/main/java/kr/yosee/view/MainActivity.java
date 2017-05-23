@@ -10,11 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.parse.Parse;
 import kr.yosee.R;
 import kr.yosee.adapter.MainPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.view_pager) ViewPager viewPager;
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
         setSupportActionBar(toolbar);
         initView();

@@ -32,11 +32,11 @@ public class MainRecipeViewHolder extends BaseViewHolder<Recipe> {
     @Override
     public void onBindView(Recipe recipe, int position) {
         if (recipeImage != null) {
-            Glide.with(adapter.getContext()).load(recipe.getImgUrl()).into(recipeImage);
+            Glide.with(adapter.getContext()).load(recipe.mainStep.mainImage).into(recipeImage);
         }
 
-        recipeTitle.setText(recipe.getTitle());
-        recipeDescription.setText(recipe.getDescription());
+        recipeTitle.setText(recipe.mainStep.mainTitle);
+        recipeDescription.setText(recipe.mainStep.mainDescription);
 
         itemView.setOnClickListener(view -> {
             if (adapter.onRecyclerItemClickListener != null) {

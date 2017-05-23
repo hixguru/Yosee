@@ -1,51 +1,78 @@
 package kr.yosee.model;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by hwanik on 2017. 1. 27..
  */
 
+@IgnoreExtraProperties
 public class Recipe {
-    private String imgUrl;
-    private String title;
-    private String description;
-    private String objectId;
+    public String uid;
+    public MainStep mainStep;
+    public List<Material> materials;
 
-    public Recipe(String imgUrl, String title, String description, String objectId) {
-        this.imgUrl = imgUrl;
-        this.title = title;
-        this.description = description;
-        this.objectId = objectId;
+    public Recipe() {
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public static class Builder {
+        public List<Material> materials;
+        public MainStep mainStep;
+
+        public Builder main(MainStep mainStep) {
+            this.mainStep = mainStep;
+            return this;
+        }
+
+        public Builder mat(List<Material> materials) {
+            this.materials = materials;
+            return this;
+        }
+
+        public Recipe build() {
+            return new Recipe(this);
+        }
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public Recipe(Builder builder) {
+        this.mainStep = builder.mainStep;
+        this.materials = builder.materials;
     }
 
-    public String getTitle() {
-        return title;
+    // public Recipe(String uid, String mainTitle, String mainDescription, String mainImage,
+    //               List<Material> materials) {
+    //     this.uid = uid;
+    //     this.mainTitle = mainTitle;
+    //     this.mainDescription = mainDescription;
+    //     this.mainImage = mainImage;
+    //     this.materials = materials;
+    // }
+
+    @Exclude
+    public HashMap<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("uid", uid);
+        result.put("main", mainStep);
+        result.put("materials", materials);
+
+        return result;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public static class MainStep {
+        public String mainTitle;
+        public String mainDescription;
+        public String mainImage;
 
-    public String getDescription() {
-        return description;
-    }
+        public MainStep() {
+        }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
+        public MainStep(String mainTitle, String mainDescription, String mainImage) {
+            this.mainTitle = mainTitle;
+            this.mainDescription = mainDescription;
+            this.mainImage = mainImage;
+        }
     }
 }

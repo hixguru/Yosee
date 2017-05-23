@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import kr.yosee.util.Util;
 import kr.yosee.view.UploadActivity;
-import kr.yosee.view.UploadDetailCoverActivity;
 
 import static kr.yosee.view.UploadActivity.REQUEST_IMAGE_CAPTURE;
 import static kr.yosee.view.UploadActivity.REQUEST_IMAGE_FROM_GALLERY;
@@ -54,11 +52,6 @@ public class UploadPresenterImpl implements UploadPresenter {
             return;
         }
 
-        Intent intent = new Intent(activity, UploadDetailCoverActivity.class);
-        intent.putExtra("main_image", Util.bitmapToByteArr(mainImage));
-        intent.putExtra("main_title", mainTitle);
-        intent.putExtra("main_description", mainDescription);
-
-        view.navigateToDetailPage(intent);
+        view.navigateToDetailPage(mainImage, mainTitle, mainDescription);
     }
 }

@@ -1,6 +1,5 @@
 package kr.yosee.presenter;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 
 /**
@@ -15,7 +14,7 @@ public interface UploadPresenter {
     void navigateToDetailRecipe(Bitmap mainImage, String mainTitle, String mainDescription);
 
     interface View {
-        void navigateToDetailPage(Intent intent);
+        void navigateToDetailPage(Bitmap mainImage, String mainTitle, String mainDescription);
 
         void showEmptyImage();
 

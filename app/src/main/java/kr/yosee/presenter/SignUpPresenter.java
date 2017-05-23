@@ -6,13 +6,15 @@ package kr.yosee.presenter;
 
 public interface SignUpPresenter {
 
-    void signUp(String userEmail, String userPassword);
+    void signUp(String email, String password);
 
     interface View {
         void invalidEmail();
 
         void invalidPassword();
 
-        void onSuccessRegister();
+        void onSuccessRegister(String email, String password);
+
+        void onFailRegister();
     }
 }

@@ -1,46 +1,41 @@
 package kr.yosee.presenter;
 
-import com.google.firebase.auth.FirebaseAuth;
+import android.util.Log;
+import com.parse.ParseUser;
 import kr.yosee.util.Util;
 import kr.yosee.view.LogInActivity;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Created by tta on 2017. 1. 26..
  */
 
 public class LogInPresenterImpl implements LogInPresenter {
-    private LogInActivity LogInActivity;
     private LogInPresenter.View view;
-    private FirebaseAuth auth;
 
     public LogInPresenterImpl(LogInActivity LogInActivity) {
         this.view = LogInActivity;
-        this.LogInActivity = LogInActivity;
     }
 
     @Override
-    public void login(String userEmail, String userPassword) {
-        auth = FirebaseAuth.getInstance();
-
-        if (!Util.isEmailValid(userEmail)) {
-            view.invalidEmail();
-            return;
-        }
-
-        if (!Util.isPasswordValid(userPassword)) {
+    public void login(String email, String password) {
+        if (!Util.isPasswordValid(password)) {
             view.invalidPassword();
             return;
         }
 
         view.showProgress();
-        auth.signInWithEmailAndPassword(userEmail, userPassword)
-            .addOnCompleteListener(LogInActivity, task -> {
-                view.stopProgress();
-                if (!task.isSuccessful()) {
-                    view.onFailedLogin();
-                    return;
-                }
-                view.onSuccessLogin();
-            });
+
+        ParseUser.logInInBackground(email, password, (user, e) -> {
+            view.stopProgress();
+            Log.e(TAG, "login: error > " + e.getMessage());
+
+            if (user == null) {
+                view.onFailedLogin();
+                return;
+            }
+            view.onSuccessLogin();
+        });
     }
 }

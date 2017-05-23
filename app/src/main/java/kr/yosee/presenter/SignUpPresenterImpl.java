@@ -1,6 +1,6 @@
 package kr.yosee.presenter;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.parse.ParseUser;
 import kr.yosee.util.Util;
 import kr.yosee.view.SignUpActivity;
 
@@ -17,19 +17,21 @@ public class SignUpPresenterImpl implements SignUpPresenter {
     }
 
     @Override
-    public void signUp(String userEmail, String userPassword) {
-        if (!Util.isEmailValid(userEmail)) {
-            view.invalidEmail();
-            return;
-        }
-
-        if (!Util.isPasswordValid(userPassword)) {
+    public void signUp(String email, String password) {
+        if (!Util.isPasswordValid(password)) {
             view.invalidPassword();
             return;
         }
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.createUserWithEmailAndPassword(userEmail, userPassword)
-            .addOnCompleteListener(task -> view.onSuccessRegister());
+        ParseUser user = new ParseUser();
+        user.setUsername(email);
+        user.setPassword(password);
+        user.signUpInBackground(exception -> {
+            if (exception == null) {
+                view.onSuccessRegister(email, password);
+                return;
+            }
+            view.onFailRegister();
+        });
     }
 }
