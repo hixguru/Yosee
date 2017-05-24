@@ -1,6 +1,7 @@
 package kr.yosee.view;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -56,7 +57,10 @@ public class HomeTabFragment extends Fragment implements HomePresenter.View {
         recyclerView.setAdapter(adapter);
         adapter.setOnRecyclerItemClickListener((adapter1, position) -> {
             Recipe recipe = (Recipe) adapter1.getItem(position);
-            presenter.getMoreRecipeInfo(recipe.mainStep.mainTitle);
+            //presenter.nagivateToMoreRecipe(recipe);
+            Intent intent = new Intent(getActivity(), DetailRecipeActivity.class);
+            intent.putExtra("recipe", recipe);
+            startActivity(intent);
         });
 
         presenter.initData();

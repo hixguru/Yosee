@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import kr.yosee.R;
 import kr.yosee.adapter.RecyclerAdapter;
 import kr.yosee.adapter.view.BaseViewHolder;
+import kr.yosee.model.MainStep;
 import kr.yosee.model.Recipe;
 
 /**
@@ -31,12 +32,16 @@ public class MainRecipeViewHolder extends BaseViewHolder<Recipe> {
 
     @Override
     public void onBindView(Recipe recipe, int position) {
+        MainStep main = recipe.getMainStep();
+
         if (recipeImage != null) {
-            Glide.with(adapter.getContext()).load(recipe.mainStep.mainImage).into(recipeImage);
+            Glide.with(adapter.getContext())
+                    .load(main.getImage())
+                    .into(recipeImage);
         }
 
-        recipeTitle.setText(recipe.mainStep.mainTitle);
-        recipeDescription.setText(recipe.mainStep.mainDescription);
+        recipeTitle.setText(main.getTitle());
+        recipeDescription.setText(main.getDescription());
 
         itemView.setOnClickListener(view -> {
             if (adapter.onRecyclerItemClickListener != null) {

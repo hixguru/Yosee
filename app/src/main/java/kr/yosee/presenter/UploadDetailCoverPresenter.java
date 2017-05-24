@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 public interface UploadDetailCoverPresenter {
     void attachView(Fragment fragment);
 
-    void detachView();
+    void detachView(int i);
 
     void addNextStep(Fragment fragment);
 

@@ -2,12 +2,18 @@ package kr.yosee.presenter;
 
 import android.content.Context;
 import android.util.Log;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import java.util.List;
 import javax.inject.Inject;
 import kr.yosee.adapter.model.RecyclerDataModel;
 import kr.yosee.adapter.view.ModelAdapterView;
+import kr.yosee.model.AdditionalInfo;
+import kr.yosee.model.MainStep;
+import kr.yosee.model.Material;
 import kr.yosee.model.Recipe;
 
 /**
@@ -50,9 +56,17 @@ public class HomePresenterImpl implements HomePresenter {
                 String imgUrl = mainImage.getUrl();
                 String mainTitle = String.valueOf(item.get("main_title"));
                 String mainDescription = String.valueOf(item.get("main_description"));
+                String cookingTime = String.valueOf(item.get("cooking_time"));
+                String serving = String.valueOf(item.get("serving"));
+                String tip = String.valueOf(item.get("tip"));
+
+                List<Material> materials = new Gson().fromJson(String.valueOf(item.get("materials")),
+                    new TypeToken<List<Material>>() {}.getType());
 
                 Recipe recipe = new Recipe.Builder()
-                    .main(new Recipe.MainStep(mainTitle, mainDescription, imgUrl))
+                    .main(new MainStep(mainTitle, mainDescription, imgUrl))
+                    .additionalInfo(new AdditionalInfo(cookingTime, serving, tip))
+                    .materials(materials)
                     .build();
 
                 recyclerDataModel.add(recipe);
@@ -66,5 +80,10 @@ public class HomePresenterImpl implements HomePresenter {
     @Override
     public void getMoreRecipeInfo(String objectId) {
         view.showProgress();
+    }
+
+    @Override
+    public void nagivateToMoreRecipe(Recipe recipe) {
+        Log.e(TAG, "nagivateToMoreRecipe: " + new Gson().toJson(recipe));
     }
 }

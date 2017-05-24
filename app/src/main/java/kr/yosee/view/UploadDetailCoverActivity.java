@@ -129,7 +129,7 @@ public class UploadDetailCoverActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_remove:
-                presenter.detachView();
+                presenter.detachView(viewPager.getCurrentItem() - 1);
                 return true;
             case R.id.action_complete:
                 presenter.uploadRecipe();

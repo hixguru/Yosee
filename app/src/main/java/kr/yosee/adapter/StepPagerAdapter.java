@@ -46,9 +46,9 @@ public class StepPagerAdapter extends FragmentStatePagerAdapter
     }
 
     @Override
-    public void removeItem() {
-        list.remove(itemCount - 1);
-        itemCount = list.size();
+    public void removeItem(int position) {
+        list.remove(position);
+        itemCount = list.size() - 1;
         view.refresh();
         view.setViewPagerPosition(itemCount - 1);
     }

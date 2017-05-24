@@ -9,5 +9,5 @@ import android.support.v4.app.Fragment;
 public interface PagerDataModel {
     void addItem(Fragment item);
 
-    void removeItem();
+    void removeItem(int position);
 }

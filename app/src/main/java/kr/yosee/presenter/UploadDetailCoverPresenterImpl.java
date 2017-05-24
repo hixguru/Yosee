@@ -35,8 +35,8 @@ public class UploadDetailCoverPresenterImpl implements UploadDetailCoverPresente
     }
 
     @Override
-    public void detachView() {
-        adapter.removeItem();
+    public void detachView(int position) {
+        adapter.removeItem(position);
         view.setViewPagerPosition(adapter.getCount());
     }
 
