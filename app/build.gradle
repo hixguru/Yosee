@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 
 
@@ -72,6 +73,9 @@ dependencies {
 
     // Gson
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+
+    // UI LIBRARY
+    compile "me.relex:circleindicator:1.2.2@aar"
 
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
