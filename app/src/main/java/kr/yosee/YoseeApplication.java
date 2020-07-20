@@ -3,6 +3,7 @@ package kr.yosee;
 import android.app.Application;
 import android.content.Context;
 import com.google.firebase.FirebaseApp;
+import com.parse.Parse;
 import kr.yosee.dagger.module.AppModule;
 import kr.yosee.dagger.view.AppComponent;
 import kr.yosee.dagger.view.DaggerAppComponent;
@@ -23,6 +24,11 @@ public class YoseeApplication extends Application {
         super.onCreate();
 
         FirebaseApp.initializeApp(this);
+        Parse.initialize(new Parse.Configuration.Builder(this)
+            .applicationId("KT8QEhPFxxDKAwLpile738MDRTWjwc2VuoUONLPn")
+            .clientKey("vSHwnfGXGyHTJUEEndJhZI2dzKAjI1oLpxl96ZBn")
+            .server("https://parseapi.back4app.com/").build()
+        );
 
         component = DaggerAppComponent.builder()
             .appModule(new AppModule(this))

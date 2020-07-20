@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream;
 
 public class Util {
     public static boolean isPasswordValid(String userPassword) {
-        return !TextUtils.isEmpty(userPassword) && userPassword.length() >= 6;
+        return !TextUtils.isEmpty(userPassword) && userPassword.length() >= 4;
     }
 
     public static boolean isEmailValid(String Email) {

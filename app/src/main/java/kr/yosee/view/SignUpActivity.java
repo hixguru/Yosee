@@ -1,12 +1,15 @@
 package kr.yosee.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.parse.ParseUser;
 import kr.yosee.R;
 import kr.yosee.presenter.SignUpPresenter;
 import kr.yosee.presenter.SignUpPresenterImpl;
@@ -44,7 +47,19 @@ public class SignUpActivity extends AppCompatActivity implements SignUpPresenter
     }
 
     @Override
-    public void onSuccessRegister() {
-        Toast.makeText(this, "등록 성공!", Toast.LENGTH_SHORT).show();
+    public void onSuccessRegister(String email, String password) {
+        ParseUser.logInInBackground(email, password, (user, e) -> {
+            if (user == null) {
+                finish();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }
+            Log.e(TAG, "login: error > " + e.getMessage());
+        });
+    }
+
+    @Override
+    public void onFailRegister() {
+        Toast.makeText(this, "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show();
     }
 }

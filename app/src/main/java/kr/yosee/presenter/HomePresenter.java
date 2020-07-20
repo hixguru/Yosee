@@ -1,5 +1,7 @@
 package kr.yosee.presenter;
 
+import kr.yosee.model.Recipe;
+
 /**
  * Created by hwanik on 2017. 1. 26..
  */
@@ -10,11 +12,13 @@ public interface HomePresenter {
 
     void getMoreRecipeInfo(String objectId);
 
+    void nagivateToMoreRecipe(Recipe recipe);
+
     interface View {
 
-        void showLoadingBar();
+        void showProgress();
 
-        void hideLoadingBar();
+        void hideProgress();
 
         void refresh();
     }

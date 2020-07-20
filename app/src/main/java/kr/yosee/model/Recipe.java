@@ -1,51 +1,101 @@
 package kr.yosee.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import java.util.List;
+
 /**
  * Created by hwanik on 2017. 1. 27..
  */
 
-public class Recipe {
-    private String imgUrl;
-    private String title;
-    private String description;
+public class Recipe implements Parcelable {
     private String objectId;
+    private MainStep mainStep;
+    private AdditionalInfo additionalInfo;
+    private List<Material> materials;
 
-    public Recipe(String imgUrl, String title, String description, String objectId) {
-        this.imgUrl = imgUrl;
-        this.title = title;
-        this.description = description;
-        this.objectId = objectId;
+    public Recipe() {
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public static class Builder {
+        String objectId;
+        MainStep mainStep;
+        List<Material> materials;
+        AdditionalInfo additionalInfo;
+
+        public Builder objectId(String objectId) {
+            this.objectId = objectId;
+            return this;
+        }
+
+        public Builder main(MainStep mainStep) {
+            this.mainStep = mainStep;
+            return this;
+        }
+
+        public Builder additionalInfo(AdditionalInfo additionalInfo) {
+            this.additionalInfo = additionalInfo;
+            return this;
+        }
+
+        public Builder materials(List<Material> materials) {
+            this.materials = materials;
+            return this;
+        }
+
+        public Recipe build() {
+            return new Recipe(this);
+        }
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public Recipe(Builder builder) {
+        this.objectId = builder.objectId;
+        this.mainStep = builder.mainStep;
+        this.additionalInfo = builder.additionalInfo;
+        this.materials = builder.materials;
     }
 
-    public String getTitle() {
-        return title;
+    public MainStep getMainStep() {
+        return mainStep;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public AdditionalInfo getAdditionalInfo() {
+        return additionalInfo;
     }
 
-    public String getDescription() {
-        return description;
+    public List<Material> getMaterials() {
+        return materials;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public String getObjectId() {
-        return objectId;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.objectId);
+        dest.writeParcelable(this.mainStep, flags);
+        dest.writeParcelable(this.additionalInfo, flags);
+        dest.writeTypedList(this.materials);
     }
 
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
+    protected Recipe(Parcel in) {
+        this.objectId = in.readString();
+        this.mainStep = in.readParcelable(MainStep.class.getClassLoader());
+        this.additionalInfo = in.readParcelable(AdditionalInfo.class.getClassLoader());
+        this.materials = in.createTypedArrayList(Material.CREATOR);
     }
+
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel source) {
+            return new Recipe(source);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 }

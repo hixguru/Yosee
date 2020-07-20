@@ -2,15 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kr.yosee.view.UploadDetailMaterialFragment"
+    android:orientation="vertical"
+    tools:context="kr.yosee.view.DetailMaterials"
     >
+
     <RelativeLayout
+        android:id="@+id/layout_recipe_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_frame"
         >
         <ImageView
-            android:id="@+id/iv_bg_img"
+            android:id="@+id/iv_detail_mat_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -21,93 +23,85 @@
             android:background="#80000000"
             />
         <TextView
-            android:id="@+id/tv_mat_title"
+            android:id="@+id/tv_detail_mat_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginTop="40dp"
+            android:text="제목입니다"
             android:textColor="@android:color/white"
             android:textSize="28sp"
             />
         <LinearLayout
-            android:id="@+id/container_time_n_amount"
+            android:id="@+id/layout_additional_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_mat_title"
+            android:layout_below="@+id/tv_detail_mat_title"
             android:layout_marginStart="50dp"
             android:layout_marginTop="10dp"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/rounded_frame"
+                android:layout_marginEnd="15dp"
                 android:gravity="center"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
                 >
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="3dp"
                     android:src="@drawable/clock_icon"
                     />
-                <EditText
-                    android:id="@+id/et_cooking_time"
-                    android:layout_width="30dp"
+                <TextView
+                    android:id="@+id/tv_cooking_time"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:maxLength="3"
+                    android:text="25"
                     android:textColor="@android:color/white"
                     android:textSize="15sp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/minute"
+                    android:text="분"
                     android:textColor="@android:color/white"
+                    android:textSize="15sp"
                     />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_frame"
                 android:gravity="center"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
                 >
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="3dp"
                     android:src="@drawable/nman_icon"
                     />
-                <EditText
-                    android:id="@+id/et_serving"
-                    android:layout_width="30dp"
+                <TextView
+                    android:id="@+id/tv_serving"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:maxLength="2"
+                    android:text="3"
                     android:textColor="@android:color/white"
                     android:textSize="15sp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/amount"
+                    android:text="인분"
                     android:textColor="@android:color/white"
+                    android:textSize="15sp"
                     />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/container_material"
-            android:layout_width="match_parent"
+            android:id="@+id/layout_materials"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/container_time_n_amount"
+            android:layout_below="@+id/layout_additional_info"
+            android:layout_marginBottom="10dp"
             android:layout_marginStart="50dp"
             android:layout_marginTop="30dp"
             android:orientation="vertical"
@@ -116,28 +110,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="@string/materials_to_prepare"
+                android:text="준비재료"
                 android:textColor="@android:color/white"
-                android:textSize="25sp"
+                android:textSize="28sp"
                 />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_mat"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:descendantFocusability="afterDescendants"
-                />
-            <ImageView
-                android:id="@+id/iv_add_material"
-                android:layout_width="20dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="120dp"
-                android:src="@drawable/plus_icon1"
+            <TextView
+                android:id="@+id/tv_mats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
                 />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/container_material"
+            android:layout_below="@+id/layout_materials"
             android:layout_marginStart="50dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
@@ -146,19 +134,15 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginEnd="5dp"
                 android:src="@drawable/tip"
                 />
-            <EditText
-                android:id="@+id/et_tip"
-                android:layout_width="250dp"
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:hint="@string/please_insert_tip"
-                android:inputType="text"
-                android:maxLines="1"
+                android:text="tip"
                 android:textColor="@android:color/white"
-                android:textColorHint="#ffe0e0e0"
-                android:textSize="15sp"
                 />
         </LinearLayout>
     </RelativeLayout>

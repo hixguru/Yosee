@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="kr.yosee.view.DetailRecipeActivity"
+    >
+
+    <include
+        layout="@layout/tool_bar"
+        android:id="@+id/tool_bar"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/view_pager"
+            app:ci_drawable="@drawable/yellow_circle"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/container_detail_bttom_btn"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:id="@+id/btn_like"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="60dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_like"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/like_icon"
+                />
+
+            <TextView
+                android:id="@+id/tv_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="0dp"
+                android:text="@string/default_btn_count"
+                android:textColor="#ffa9a9a9"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="1dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_comment"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/comment_icon"
+                />
+
+            <TextView
+                android:id="@+id/tv_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@string/default_btn_count"
+                android:textColor="#ffa9a9a9"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_share"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="1dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_share"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/share_icon"
+                />
+
+            <TextView
+                android:id="@+id/tv_share_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="-5dp"
+                android:text="@string/default_btn_count"
+                android:textColor="#ffa9a9a9"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

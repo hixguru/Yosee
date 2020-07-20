@@ -15,4 +15,7 @@
     <string name="amount">인분</string>
     <string name="materials_to_prepare">준비재료</string>
     <string name="please_insert_tip">팁이 있으면 적어주세요</string>
+    <string name="remove_step">삭제</string>
+    <string name="upload_recipe">업로드</string>
+    <string name="default_btn_count">0</string>
 </resources>
